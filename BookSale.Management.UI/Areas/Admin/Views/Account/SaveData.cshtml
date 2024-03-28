@@ -1,0 +1,127 @@
+﻿@model BookSale.Management.Application.DTOs.AccountDTO 
+
+@{
+    ViewData["Title"] = "SaveData";
+    Layout = "~/Areas/Admin/Views/Share/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span> Account</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h4 class="card-header">Profile Details</h4>
+                    <div class="card-body pt-2 mt-1">
+                        <form asp-controller="account" asp-action="savedata" method="POST" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                    <img src="../assets/img/avatars/no-image.jpg" alt="user-avatar" class="d-block w-px-120 h-px-120 rounded">
+                                    <div class="button-wrapper">
+                                        <label for="upload" class="btn btn-primary me-2 mb-3 waves-effect waves-light" tabindex="0">
+                                            <span class="d-none d-sm-block">Upload new photo</span>
+                                            <i class="mdi mdi-tray-arrow-up d-block d-sm-none"></i>
+                                            <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" asp-for="Avartar">
+                                        </label>
+
+                                        <div class="text-muted small">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2 gy-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating form-floating-outline">
+                                        <select class="form-select color-dropdown">
+                                            <option>Please select</option>
+                                            <option>Superadmin</option>
+                                            <option>Administrator</option>
+                                        </select>
+                                        <label for="Role">Role <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating form-floating-outline">
+                                        <input class="form-control"
+                                               type="text"
+                                               placeholder="Username"
+                                               asp-for="Username"/>
+                                               autofocus 
+                                        <label for="Username">Username <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating form-floating-outline">
+                                        <input class="form-control" type="password" placeholder="Password" asp-for="Password"/>
+                                        <label for="Password">Password <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Fullname" 
+                                               asp-for="Fullname"/>
+                                        <label for="Fullname">Fullname <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating form-floating-outline">
+                                        <input class="form-control"
+                                               type="text"
+                                               placeholder="john.doe@example.com" 
+                                               asp-for="Email"/>
+                                        <label for="email">E-mail <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-merge">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="Mobile Phone" 
+                                                   asp-for="MobilePhone"/>
+                                            <label for="MobilePhone">Mobile Phone</label>
+                                        </div>
+                                        <span class="input-group-text">VN (+84)</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-merge">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="Phone" 
+                                                   asp-for="Phone"/>
+                                            <label for="Phone">Phone</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="address"
+                                               name="address"
+                                               placeholder="Address" 
+                                               asp-for="Address"/>
+                                        <label for="address">Address</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check col-md-12 mt-3">
+                                <input class="form-check-input" type="checkbox" asp-for="IsActive">
+                                <label class="form-check-label" for="IsActive"> Is active </label>
+                            </div>
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                                @Html.ActionLink("Cancel", "Index", "Account", null, new { @class = "btn btn-outline-secondary" })
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-backdrop fade"></div>
+</div>
+
