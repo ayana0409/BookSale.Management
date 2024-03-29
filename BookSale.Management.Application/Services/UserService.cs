@@ -1,62 +1,29 @@
-﻿using BookSale.Managament.Domain.Entities;
+﻿using AutoMapper;
+using BookSale.Managament.Domain.Entities;
+using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 namespace BookSale.Management.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IMapper _mapper;
 
-        public UserService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserService(UserManager<ApplicationUser> userManager, 
+                            SignInManager<ApplicationUser> signInManager,
+                            RoleManager<IdentityRole> roleManager,
+                            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-        }
-
-        public async Task<ResponseModel> CheckLogin(string username, string password, bool hasRemember)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-
-            if (user is null)
-            {
-                return new ResponseModel
-                {
-                    Message = "Username or password is invalid"
-                };
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: hasRemember, lockoutOnFailure: true);
-
-            if (result.IsLockedOut)
-            {
-                var remainingLockout = user.LockoutEnd.Value - DateTimeOffset.UtcNow;
-
-                return new ResponseModel
-                {
-                    Message = $"Account is locked out. Please try again in {Math.Round(remainingLockout.TotalMinutes)} minutes"
-                };
-            }
-
-            if (!result.Succeeded)
-            {
-                return new ResponseModel
-                {
-                    Message = "Username or password is invalid"
-                };
-
-            }
-
-            if (user.AccessFailedCount > 0)
-            {
-                await _userManager.ResetAccessFailedCountAsync(user);
-            }
-
-            return new ResponseModel
-            {
-                Status = true
-            };
+            _roleManager = roleManager;
+            _mapper = mapper;
         }
 
         public async Task<ResponseDatatable<UserModel>> GetUserByPagination(RequestDatatable request)
@@ -86,6 +53,98 @@ namespace BookSale.Management.Application.Services
                                                     RecordsFiltered = totalRecord,
                                                     Data = result
                                                     };
+        }
+
+        public async Task<AccountDTO> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            var role = (await _userManager.GetRolesAsync(user)).First();
+
+            var userDto = _mapper.Map<AccountDTO>(user);
+
+            userDto.RoleName = role;
+
+            return userDto;
+        }
+
+        public async Task<ResponseModel> Save(AccountDTO account)
+        {
+            string errors = string.Empty;
+            IdentityResult identityResult;
+
+            if (string.IsNullOrEmpty(account.Id))
+            {
+                var applicationUser = new ApplicationUser
+                {
+                    FullName = account.Fullname,
+                    UserName = account.Username,
+                    Email = account.Email,
+                    IsActive = account.IsActive,
+                    PhoneNumber = account.Phone,
+                    MobilePhone = account.MobilePhone,
+                    Address = account.Address
+                };
+
+                identityResult = await _userManager.CreateAsync(applicationUser, account.Password);
+
+                if(identityResult.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(applicationUser, account.RoleName);
+
+                    return new ResponseModel
+                    {
+                        Action = Managament.Domain.Enums.ActionType.Insert,
+                        Message = "Insert successful.",
+                        Status = true,
+                    };
+                }
+            }
+            else
+            {
+                var user = await _userManager.FindByIdAsync(account.Id);
+
+                user.FullName = account.Fullname;
+                user.Email = account.Email;
+                user.IsActive = account.IsActive;
+                user.PhoneNumber = account.Phone;
+                user.MobilePhone = account.MobilePhone;
+                user.Address = account.Address;
+
+                identityResult = await _userManager.UpdateAsync(user);
+
+                if (identityResult.Succeeded)
+                {
+                    var hasRole = await _userManager.IsInRoleAsync(user, account.RoleName);
+
+                    if (!hasRole)
+                    {
+                        var oldRolesName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+                        var removeResult = await _userManager.RemoveFromRoleAsync(user, oldRolesName);
+
+                        if (removeResult.Succeeded)
+                        {
+                            await _userManager.AddToRoleAsync(user, account.RoleName);
+                        }
+                    }
+
+                    return new ResponseModel
+                    {
+                        Action = Managament.Domain.Enums.ActionType.Update,
+                        Message = "Update successful.",
+                        Status = true,
+                    };
+                }
+            }
+            errors = string.Join("<br/>", identityResult.Errors);
+
+            return new ResponseModel
+            {
+                Action = Managament.Domain.Enums.ActionType.Insert,
+                Message = $"{(string.IsNullOrEmpty(account.Id)? "Insert" : "Update")} failes. {errors}",
+                Status = false,
+            };
         }
     }
 }

@@ -14,6 +14,9 @@ builder.Services.ConfigureIdeitity(builder.Configuration);
 //
 builder.Services.AddDependencyInjection();
 
+builder.Services.AddAutoMapper();
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllersWithViews();

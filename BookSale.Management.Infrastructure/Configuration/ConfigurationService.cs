@@ -1,4 +1,5 @@
 ﻿using BookSale.Managament.Domain.Entities;
+using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.Services;
 using BookSale.Management.DataAccess.DataAccess;
 using BookSale.Management.DataAccess.Repository;
@@ -45,7 +46,14 @@ namespace BookSale.Management.DataAccess.Configuration
         {
             services.AddTransient<PasswordHasher<ApplicationUser>>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+        }
+
+        public static void AddAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
     }
 }

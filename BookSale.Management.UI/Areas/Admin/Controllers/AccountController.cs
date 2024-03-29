@@ -1,6 +1,7 @@
-﻿using BookSale.Management.Application.DTOs;
-using BookSale.Management.Application.Services;
+﻿using BookSale.Management.Application.Abtracts;
+using BookSale.Management.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookSale.Management.UI.Areas.Admin.Controllers
 {
@@ -8,10 +9,12 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-
-        public AccountController(IUserService userService) 
+        private readonly IRoleService _roleService;
+ 
+        public AccountController(IUserService userService, IRoleService roleService) 
         {
             _userService = userService;
+            _roleService = roleService;
         }
 
         public IActionResult Index()
@@ -27,18 +30,39 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult SaveData(string id)
+        public async Task<IActionResult> SaveData(string? id)
         {
-            var accountDto = new AccountDTO();
+            AccountDTO accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new();
+
+            ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+
             return View(accountDto);
         }
 
         [HttpPost]
-        public IActionResult SaveData(AccountDTO accountDTO)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveData(AccountDTO accountDTO)
         {
-            var acc = accountDTO;
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+                ModelState.AddModelError("errorsModel", "Invalid model");
 
-            return View();
+                return View(accountDTO);
+            }
+
+
+            var result = await _userService.Save(accountDTO);
+
+            if (result.Status)
+            {
+                return RedirectToAction("", "Account");
+            }
+
+            ModelState.AddModelError("errorsModel", result.Message);
+            ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+
+            return View(accountDTO);
         }
     }
 }

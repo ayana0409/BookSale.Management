@@ -1,5 +1,5 @@
 ﻿using BookSale.Managament.Domain.Entities;
-using BookSale.Management.Application.Services;
+using BookSale.Management.Application.Abtracts;
 using BookSale.Management.UI.Areas.Admin.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
     public class AuthenticationController : Controller
     {
 
-        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly SignInManager<ApplicationUser> _signInUser;
-        public AuthenticationController(IUserService userService, SignInManager<ApplicationUser> signInUser) 
+        public AuthenticationController(IAuthenticationService authenticationService, SignInManager<ApplicationUser> signInUser) 
         {
-            _userService = userService;
+            _authenticationService = authenticationService;
             _signInUser = signInUser;
         }
 
@@ -39,7 +39,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
                 return View();
             }
 
-            var result = await _userService.CheckLogin(loginModel.UserName, loginModel.Password, loginModel.HasRemember);
+            var result = await _authenticationService.CheckLogin(loginModel.UserName, loginModel.Password, loginModel.HasRemember);
 
             if (result.Status)
                 return RedirectToAction("Index", "Home");

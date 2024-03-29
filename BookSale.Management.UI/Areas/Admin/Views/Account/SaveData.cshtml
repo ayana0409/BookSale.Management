@@ -29,31 +29,39 @@
                                 </div>
                             </div>
                             <div class="row mt-2 gy-4">
+                                @Html.Raw("<div asp-validation-summary='All' class='text-danger'></div>")
                                 <div class="col-md-12">
                                     <div class="form-floating form-floating-outline">
-                                        <select class="form-select color-dropdown">
-                                            <option>Please select</option>
-                                            <option>Superadmin</option>
-                                            <option>Administrator</option>
-                                        </select>
+                                        @Html.DropDownListFor(x => x.RoleName, ViewBag.Roles as IEnumerable<SelectListItem>, "Please select",
+                                                             new { @class = "form-select color-dropdown" })
                                         <label for="Role">Role <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
+                                <input class="form-control" type="text" asp-for="Id" readonly hidden/>
                                 <div class="col-md-6">
                                     <div class="form-floating form-floating-outline">
-                                        <input class="form-control"
-                                               type="text"
-                                               placeholder="Username"
-                                               asp-for="Username"/>
-                                               autofocus 
+                                        @{
+                                            if (!string.IsNullOrEmpty(Model.Id))
+                                            {
+                                                <input class="form-control" type="text" placeholder="Username" asp-for="Username" readonly/>
+                                            }
+                                            else
+                                            {
+                                                <input class="form-control" type="text" placeholder="Username" asp-for="Username" />
+                                            }
+                                        }
                                         <label for="Username">Username <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-floating form-floating-outline">
-                                        <input class="form-control" type="password" placeholder="Password" asp-for="Password"/>
-                                        <label for="Password">Password <span class="text-danger">*</span></label>
-                                    </div>
+                                    @if (string.IsNullOrEmpty(Model.Id))
+                                    {
+                                        <div class="form-floating form-floating-outline">
+                                            <input class="form-control" type="password" placeholder="Password" asp-for="Password" />
+                                            <label for="Password">Password <span class="text-danger">*</span></label>
+                                        </div>
+                                    }
+                                    
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating form-floating-outline">

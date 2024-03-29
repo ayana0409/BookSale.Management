@@ -1,10 +1,11 @@
 ﻿using BookSale.Management.Application.DTOs;
 
-namespace BookSale.Management.Application.Services
+namespace BookSale.Management.Application.Abtracts
 {
     public interface IUserService
     {
-        Task<ResponseModel> CheckLogin(string username, string password, bool hasRemember);
+        Task<AccountDTO> GetUserById(string id);
         Task<ResponseDatatable<UserModel>> GetUserByPagination(RequestDatatable request);
+        Task<ResponseModel> Save(AccountDTO account);
     }
 }
