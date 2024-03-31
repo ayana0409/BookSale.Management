@@ -46,6 +46,7 @@ namespace BookSale.Management.DataAccess.Configuration
         {
             services.AddTransient<PasswordHasher<ApplicationUser>>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();

@@ -43,10 +43,20 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveData(AccountDTO accountDTO)
         {
+            if (!string.IsNullOrEmpty(accountDTO.Id) && string.IsNullOrEmpty(accountDTO.Password))
+            {
+                ModelState.Remove(nameof(accountDTO.Password)); // Loại bỏ password khỏi ModelState
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Roles = await _roleService.GetRoleForDropdownList();
                 ModelState.AddModelError("errorsModel", "Invalid model");
+
+                var errors = ModelState.Values.SelectMany(x => x.Errors)
+                                    .Select(x => x.ErrorMessage).ToList().ToList();
+
+                ViewBag.Error = string.Join("<br/>", errors);
 
                 return View(accountDTO);
             }
@@ -59,8 +69,8 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
                 return RedirectToAction("", "Account");
             }
 
-            ModelState.AddModelError("errorsModel", result.Message);
             ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+            ModelState.AddModelError("errorsModel", result.Message);
 
             return View(accountDTO);
         }

@@ -16,12 +16,22 @@
                         <form asp-controller="account" asp-action="savedata" method="POST" enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src="../assets/img/avatars/no-image.jpg" alt="user-avatar" class="d-block w-px-120 h-px-120 rounded">
+                                    @{
+                                        if (!string.IsNullOrEmpty(Model.Id))
+                                        {
+                                            <img src="~/images/user/@(Model.Id).png" alt="user-avatar" class="d-block w-px-120 h-px-120 rounded" id="img-upload">
+                                        }
+                                        else
+                                        {
+                                            <img src="../assets/img/avatars/no-image.jpg" alt="user-avatar" class="d-block w-px-120 h-px-120 rounded" id="img-upload">
+                                        }
+                                    }
+                                    
                                     <div class="button-wrapper">
                                         <label for="upload" class="btn btn-primary me-2 mb-3 waves-effect waves-light" tabindex="0">
                                             <span class="d-none d-sm-block">Upload new photo</span>
                                             <i class="mdi mdi-tray-arrow-up d-block d-sm-none"></i>
-                                            <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" asp-for="Avartar">
+                                            <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" asp-for="Avatar">
                                         </label>
 
                                         <div class="text-muted small">Allowed JPG, GIF or PNG. Max size of 800K</div>
@@ -35,6 +45,7 @@
                                         @Html.DropDownListFor(x => x.RoleName, ViewBag.Roles as IEnumerable<SelectListItem>, "Please select",
                                                              new { @class = "form-select color-dropdown" })
                                         <label for="Role">Role <span class="text-danger">*</span></label>
+                                        <span class="text-danger" asp-validation-for="RoleName"></span>
                                     </div>
                                 </div>
                                 <input class="form-control" type="text" asp-for="Id" readonly hidden/>
@@ -48,6 +59,7 @@
                                             else
                                             {
                                                 <input class="form-control" type="text" placeholder="Username" asp-for="Username" />
+                                                <span class="text-danger" asp-validation-for="Username"></span>
                                             }
                                         }
                                         <label for="Username">Username <span class="text-danger">*</span></label>
@@ -59,6 +71,7 @@
                                         <div class="form-floating form-floating-outline">
                                             <input class="form-control" type="password" placeholder="Password" asp-for="Password" />
                                             <label for="Password">Password <span class="text-danger">*</span></label>
+                                            <span class="text-danger" asp-validation-for="Password"></span>
                                         </div>
                                     }
                                     
@@ -70,6 +83,7 @@
                                                placeholder="Fullname" 
                                                asp-for="Fullname"/>
                                         <label for="Fullname">Fullname <span class="text-danger">*</span></label>
+                                        <span class="text-danger" asp-validation-for="Fullname"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -79,6 +93,7 @@
                                                placeholder="john.doe@example.com" 
                                                asp-for="Email"/>
                                         <label for="email">E-mail <span class="text-danger">*</span></label>
+                                        <span class="text-danger" asp-validation-for="Email"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -131,5 +146,8 @@
         </div>
     </div>
     <div class="content-backdrop fade"></div>
+    @section Scripts {
+        <script src="~/admin/components/account_savedata.js"></script>
+    }
 </div>
 

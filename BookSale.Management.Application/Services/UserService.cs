@@ -2,6 +2,7 @@
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,21 @@ namespace BookSale.Management.Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IImageService _imageService;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<ApplicationUser> userManager, 
-                            SignInManager<ApplicationUser> signInManager,
-                            RoleManager<IdentityRole> roleManager,
-                            IMapper mapper)
+        public UserService(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IMapper mapper,
+            IImageService imageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         public async Task<ResponseDatatable<UserModel>> GetUserByPagination(RequestDatatable request)
@@ -59,7 +64,7 @@ namespace BookSale.Management.Application.Services
         {
             var user = await _userManager.FindByIdAsync(id);
 
-            var role = (await _userManager.GetRolesAsync(user)).First();
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
 
             var userDto = _mapper.Map<AccountDTO>(user);
 
@@ -92,6 +97,8 @@ namespace BookSale.Management.Application.Services
                 {
                     await _userManager.AddToRoleAsync(applicationUser, account.RoleName);
 
+                    await _imageService.SaveImage(new List<IFormFile> { account.Avatar }, "images/user", $"{applicationUser.Id}.png");
+
                     return new ResponseModel
                     {
                         Action = Managament.Domain.Enums.ActionType.Insert,
@@ -115,6 +122,8 @@ namespace BookSale.Management.Application.Services
 
                 if (identityResult.Succeeded)
                 {
+                    await _imageService.SaveImage(new List<IFormFile> { account.Avatar }, "images/user", $"{user.Id}.png");
+
                     var hasRole = await _userManager.IsInRoleAsync(user, account.RoleName);
 
                     if (!hasRole)
