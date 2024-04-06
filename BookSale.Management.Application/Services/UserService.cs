@@ -33,11 +33,11 @@ namespace BookSale.Management.Application.Services
 
         public async Task<ResponseDatatable<UserModel>> GetUserByPagination(RequestDatatable request)
         {
-            var users = await _userManager.Users.Where(x => String.IsNullOrEmpty(request.Keyword)
+            var users = await _userManager.Users.Where(x => x.IsActive && (String.IsNullOrEmpty(request.Keyword)
                                                    || (x.UserName.Contains(request.Keyword)
                                                    || x.Email.Contains(request.Keyword)
                                                    || x.FullName.Contains(request.Keyword)
-                                                   || x.PhoneNumber.Contains(request.Keyword))
+                                                   || x.PhoneNumber.Contains(request.Keyword)))
                                                  )
                                           .Select(x => new UserModel {
                                                     ID = x.Id,
@@ -154,6 +154,19 @@ namespace BookSale.Management.Application.Services
                 Message = $"{(string.IsNullOrEmpty(account.Id)? "Insert" : "Update")} failes. {errors}",
                 Status = false,
             };
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user is not null)
+            {
+                user.IsActive = false;
+                await _userManager.UpdateAsync(user);
+
+                return true;
+            }
+            return false;
         }
     }
 }

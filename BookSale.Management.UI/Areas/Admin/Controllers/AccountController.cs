@@ -1,11 +1,14 @@
 ﻿using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
+using BookSale.Management.UI.Ultility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookSale.Management.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
@@ -17,6 +20,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             _roleService = roleService;
         }
 
+        [Breadscumb("Account List", "App")]
         public IActionResult Index()
         {
             return View();
@@ -29,6 +33,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             return Json(data);
         }
 
+        [Breadscumb("Account Form", "App")]
         [HttpGet]
         public async Task<IActionResult> SaveData(string? id)
         {
@@ -73,6 +78,12 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             ModelState.AddModelError("errorsModel", result.Message);
 
             return View(accountDTO);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            return Json(await _userService.DeleteAsync(id));
         }
     }
 }

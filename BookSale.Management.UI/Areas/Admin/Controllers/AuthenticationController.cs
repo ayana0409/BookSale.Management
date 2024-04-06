@@ -42,7 +42,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             var result = await _authenticationService.CheckLogin(loginModel.UserName, loginModel.Password, loginModel.HasRemember);
 
             if (result.Status)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
 
             ViewBag.Error = result.Message;
 
