@@ -1,23 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Account List";
+﻿@model BookSale.Management.Application.DTOs.ViewModal.GenreViewModal
+
+@{
+    ViewData["Title"] = "Genre List";
     Layout = "~/Areas/Admin/Views/Share/_Layout.cshtml";
 }
+
 <link href="~/admin/assets/vendor/fonts/materialdesignicons.css" rel="stylesheet" />
 <link href="~/admin/dist/datatables/datatables.min.css" rel="stylesheet" />
 <link href="~/admin/dist/datatables/datatables-2.0.3/css/datatables.bootstrap.min.css" rel="stylesheet" />
 
 <div class="card">
-    <h5 class="card-header">Account list</h5>
+    <h5 class="card-header">Genre list</h5>
     <div class="m-2">
-        <table id="tbl-account" class="table dataTable" style="width:100%">
+        <table id="tbl-genre" class="table dataTable" style="width:100%">
             <thead>
                 <tr>
-                    <th data-dt-order="disable"><a href="/admin/account/savedata"><span class="mdi mdi-account-plus"></span></a></th>
-                    <th>user name</th>
-                    <th>full name</th>
-                    <th>email</th>
-                    <th>phone</th>
-                    <th>isActive</th>
+                    <th data-dt-order="disable"><a href="#" id="btn-add"><span class="mdi mdi-plus-circle"></span></a></th>
+                    <th>Name</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,11 +25,13 @@
     </div>
 </div>
 
+@await Html.PartialAsync("_SaveModal.cshtml", Model)
+
 @section Scripts {
     <script src="~/admin/dist/datatables/datatables.min.js"></script>
     <script src="~/js/registerdatatable.js"></script>
     <script src="~/admin/assets/vendor/libs/moment/moment.js"></script>
-    <script src="~/admin/components/account.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/admin/components/genre.js"></script>
 }
-
-

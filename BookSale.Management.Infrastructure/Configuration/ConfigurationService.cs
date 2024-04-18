@@ -50,6 +50,7 @@ namespace BookSale.Management.DataAccess.Configuration
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IGenreService, GenreService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

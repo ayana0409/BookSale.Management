@@ -1,0 +1,30 @@
+﻿ @model BookSale.Management.Application.DTOs.ViewModal.GenreViewModal
+
+<div class="modal" id="genre-modal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+    <form asp-action="SaveData" asp-controller="Genre" method="post" asp-antiforgery="true" id="formGenre">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">Genre form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Id">
+                    <div class="row">
+                        <div class="col mb-6 mt-2">
+                            <div class="form-floating form-floating-outline">
+                                <input type="text" asp-for="Name" class="form-control" placeholder="Enter Name">
+                                <label for="nameWithTitle">Name <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

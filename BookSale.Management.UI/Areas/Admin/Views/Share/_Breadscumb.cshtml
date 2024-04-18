@@ -4,27 +4,27 @@
 
 @{
     var breadscumb = ViewData["Breadscumb"] as BreadscumbModel;
-
-    if (!string.IsNullOrEmpty(breadscumb.Path))
+    if (breadscumb is not null)
     {
-        var segments = breadscumb.Path.Split('/');
+        if (!string.IsNullOrEmpty(breadscumb.Path))
+        {
+            var segments = breadscumb.Path.Split('/');
 
-        <h4 class="py-3 mb-4">
-            @{
-                for (int i = 0; i < segments.Count(); i++)
-                {
-                    if (i == segments.Count() - 1)
+            <h4 class="py-3 mb-4">
+                @{
+                    for (int i = 0; i < segments.Count(); i++)
                     {
-                        @segments[i]
-                    }
-                    else
-                    {
-                        <span class="text-muted fw-light">@segments[i]/</span>
+                        if (i == segments.Count() - 1)
+                        {
+                            @segments[i]
+                        }
+                        else
+                        {
+                            <span class="text-muted fw-light">@segments[i]/</span>
+                        }
                     }
                 }
-            }
-        </h4>
+            </h4>
+        }
     }
-
-    
 }
