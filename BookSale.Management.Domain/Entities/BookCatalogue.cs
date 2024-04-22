@@ -16,5 +16,6 @@ namespace BookSale.Managament.Domain.Entities
         public Book? Book { get; set; }
         [ForeignKey(nameof(CatalogueId))]
         public Catalogue? Catalogue { get; set; }
+        public bool IsActive { get; set; }
     }
 }

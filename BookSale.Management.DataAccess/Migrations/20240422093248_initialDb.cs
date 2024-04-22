@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookSale.Management.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initialdb : Migration
+    public partial class initialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace BookSale.Management.DataAccess.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    MobilePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -42,7 +43,6 @@ namespace BookSale.Management.DataAccess.Migrations
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MobilePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -243,13 +243,15 @@ namespace BookSale.Management.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Author = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Publisher = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Available = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false)
+                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,7 +272,8 @@ namespace BookSale.Management.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    CatalogueId = table.Column<int>(type: "int", nullable: false)
+                    CatalogueId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

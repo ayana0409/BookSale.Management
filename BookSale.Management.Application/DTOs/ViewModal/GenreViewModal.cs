@@ -10,6 +10,6 @@ namespace BookSale.Management.Application.DTOs.ViewModal
         [Required(ErrorMessage = "Genre name must be not emty.")]
         public string Name { get; set; }
         
-        public bool IsActive { get; set; } = false;
+        public bool? IsActive { get; set; } = false;
     }
 }

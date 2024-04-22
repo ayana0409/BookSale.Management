@@ -1,8 +1,10 @@
 ﻿using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.Services;
+using BookSale.Management.DataAccess.Dapper;
 using BookSale.Management.DataAccess.DataAccess;
 using BookSale.Management.DataAccess.Repository;
+using BookSale.Management.Doman;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,12 +47,14 @@ namespace BookSale.Management.DataAccess.Configuration
         public static void AddDependencyInjection(this IServiceCollection services)
         {
             services.AddTransient<PasswordHasher<ApplicationUser>>();
+            services.AddTransient<ISQLQueryHandler, SQLQueryHandler>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<IBookService, BookService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

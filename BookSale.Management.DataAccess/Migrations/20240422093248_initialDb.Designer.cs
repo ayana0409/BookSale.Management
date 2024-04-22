@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookSale.Management.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240307040123_initialdb")]
-    partial class initialdb
+    [Migration("20240422093248_initialDb")]
+    partial class initialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -60,6 +60,9 @@ namespace BookSale.Management.DataAccess.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MobilePhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -117,11 +120,19 @@ namespace BookSale.Management.DataAccess.Migrations
                     b.Property<int>("Available")
                         .HasColumnType("int");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -158,6 +169,9 @@ namespace BookSale.Management.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

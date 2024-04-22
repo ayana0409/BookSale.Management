@@ -7,6 +7,9 @@ namespace BookSale.Managament.Domain.Entities
     {
         [Required]
         [StringLength(500)]
+        public string? Code { get; set; }
+        [Required]
+        [StringLength(500)]
         public string? Title { get; set; }
         [Required]
         [StringLength(500)]
@@ -21,5 +24,7 @@ namespace BookSale.Managament.Domain.Entities
         public int GenreId { get; set; }
         [ForeignKey(nameof(GenreId))]
         public Genre? Genre { get; set; }
+        [Required]
+        public bool IsActive { get; set; }
     }
 }
