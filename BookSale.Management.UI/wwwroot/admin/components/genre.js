@@ -21,25 +21,25 @@
     const urlApi = "/admin/genre/getgenrepagination";
 
     registerDatatable(elementName, column, urlApi);
-    //$(document).on('click', '.btn-delete', function () {
-    //    const key = $(this).closest('span').data('key');
+    $(document).on('click', '.btn-delete', function () {
+        const key = $(this).closest('span').data('key');
 
-    //    $.ajax({
-    //        url: `/admin/account/delete/${key}`,
-    //        dataType: 'json',
-    //        method: 'POST',
-    //        success: function (response) {
-    //            if (!response) {
-    //                showToaster("Error", "Delete failed");
-    //                return;
-    //            }
+        $.ajax({
+            url: `/admin/genre/delete/${key}`,
+            dataType: 'json',
+            method: 'POST',
+            success: function (response) {
+                if (!response) {
+                    showToaster("Error", "Delete failed");
+                    return;
+                }
 
-    //            $(elementName).DataTable().ajax.reload();
-    //            showToaster("Success", "Delete successful");
-    //        }
-    //    })
+                $(elementName).DataTable().ajax.reload();
+                showToaster("Success", "Delete successful");
+            }
+        })
 
-    //});
+    });
 
     $(document).on('click', '#btn-add', function () {
         $('#Id').val(0);

@@ -1,6 +1,7 @@
 ﻿using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.ViewModal;
+using BookSale.Management.Application.Services;
 using BookSale.Management.UI.Ultility;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -51,6 +52,12 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             }
 
             return Json(responseModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return Json(await _genreService.DeleteAsync(id));
         }
     }
 }

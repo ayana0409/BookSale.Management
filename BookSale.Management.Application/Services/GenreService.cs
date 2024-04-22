@@ -31,7 +31,7 @@ namespace BookSale.Management.Application.Services
 
         public async Task<ResponseDatatable<GenreDTO>> GetGenreByPagination(RequestDatatable request)
         {
-            var genres = await _unitOfWork.GenreRepository.GetAllGenre();
+            var genres = await _unitOfWork.GenreRepository.GetAllActiveGenre();
 
             var genresDTO = _mapper.Map<IEnumerable<GenreDTO>>(genres);
 
@@ -89,6 +89,19 @@ namespace BookSale.Management.Application.Services
                 Message = $"{(genre.Id == 0 ? "Insert" : "Update")} failes.",
                 Status = false,
             };
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var genre = await _unitOfWork.GenreRepository.FindById(id);
+            if (genre is not null)
+            {
+                genre.IsActive = false;
+                await _unitOfWork.GenreRepository.UpdateAsync(genre);
+
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -21,6 +21,11 @@ namespace BookSale.Management.DataAccess.Repository {
             return await GetAllAsync();
         }
 
+        public async Task<IEnumerable<Genre>> GetAllActiveGenre()
+        {
+            return await _applicationDbContext.Genre.Where(x => x.IsActive == true).ToListAsync();
+        }
+
         public async Task<Genre> GetById(int id)
         {
             return  await GetSigleAsync(x => x.Id == id);
@@ -50,6 +55,7 @@ namespace BookSale.Management.DataAccess.Repository {
                 if (existGenre != null)
                 {
                     existGenre.Name = genre.Name;
+                    existGenre.IsActive = genre.IsActive;
                     await _applicationDbContext.SaveChangesAsync();
 
                     return true;
@@ -60,6 +66,11 @@ namespace BookSale.Management.DataAccess.Repository {
                 return false;
             }
             return false;
+        }
+
+        public async Task<Genre> FindById(int id)
+        {
+            return await _applicationDbContext.Genre.FirstAsync(x => x.Id == id);
         }
     }
 }
