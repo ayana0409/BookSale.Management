@@ -25,3 +25,22 @@ function mapObjectToControlView(modelView) {
 
     }
 }
+
+(function () {
+
+    $.blockUI.defaults.message = `<div class="spinner-border spinner-border-lg text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>`
+    $.blockUI.defaults.css = {
+        padding: 0,
+        margin: 0,
+        width: '30%',
+        top: '40%',
+        left: '35%',
+        textAlign: 'center',
+        color: '#fff',
+        border: 'none',
+        backgroundColor: 'none',
+        cursor: 'wait'
+    }
+})();

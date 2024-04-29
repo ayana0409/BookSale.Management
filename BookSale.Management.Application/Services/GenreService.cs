@@ -5,6 +5,7 @@ using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.ViewModal;
 using BookSale.Management.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -46,6 +47,17 @@ namespace BookSale.Management.Application.Services
                 RecordsFiltered = totalRecord,
                 Data = result
             };
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetGenreForDropdownList()
+        {
+            var genre = await _unitOfWork.GenreRepository.GetAllActiveGenre();
+
+            return genre.Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            });
         }
 
         public async Task<ResponseModel> Save(GenreViewModal genreDTO)

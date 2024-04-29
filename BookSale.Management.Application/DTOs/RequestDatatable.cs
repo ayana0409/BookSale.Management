@@ -16,5 +16,9 @@ namespace BookSale.Management.Application.DTOs
         [BindProperty(Name = "search[value]")]
         public string? Keyword { get; set; }
         public int Draw { get; set; }
+        [BindProperty(Name = "order[0][column]")]
+        public int? OrderColunm {  get; set; }
+        [BindProperty(Name = "order[0][dir]")]
+        public string? OrderType { get; set; }
     }
 }

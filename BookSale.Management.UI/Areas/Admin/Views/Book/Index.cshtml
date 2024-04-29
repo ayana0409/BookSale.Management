@@ -12,7 +12,7 @@
         <table id="tbl-book" class="table dataTable" style="width:100%">
             <thead>
                 <tr>
-                    <th data-dt-order="disable"><a href="#" id="btn-add"><span class="mdi mdi-plus-circle"></span></a></th>
+                    <th data-dt-order="disable"><a href="/admin/book/savedata" id="btn-add"><span class="mdi mdi-plus-circle"></span></a></th>
                     <th>Genre</th>
                     <th>Code</th>
                     <th>Title</th>
@@ -32,8 +32,9 @@
 @section Scripts {
     <script src="~/admin/dist/datatables/datatables.min.js"></script>
     <script src="~/js/registerdatatable.js"></script>
-    <script src="~/admin/assets/vendor/libs/moment/moment.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/admin/components/book.js"></script>
+
+    <script src="~/lib/moment.js"></script>
 }

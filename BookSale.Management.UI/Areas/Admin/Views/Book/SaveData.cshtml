@@ -1,0 +1,132 @@
+﻿@model BookSale.Management.Application.DTOs.ViewModal.BookViewModal
+
+@{
+    ViewData["Title"] = "SaveData";
+    Layout = "~/Areas/Admin/Views/Share/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <h4 class="card-header">Book Detail</h4>
+            <div class="card-body pt-2 mt-1">
+                <form asp-action="SaveData" asp-controller="book" method="post" asp-antiforgery="true" enctype="multipart/form-data">
+                    <div class="row mt-2 gy-4">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" asp-for="Id" readonly hidden />
+                            <input class="form-check-input" type="hidden" asp-for="IsActive">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12 mb-4">
+                                <div class="form-floating form-floating-outline">
+                                    <select class="form-select color-dropdown" asp-for="GenreId">
+                                        <option value="">Please select</option>
+                                        @{
+                                            if (ViewBag.Genres != null)
+                                            {
+                                                var genres = ViewBag.Genres as IEnumerable<SelectListItem>;
+                                                foreach (var genre in genres)
+                                                {
+                                                    <option value="@genre.Value">@genre.Text</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                    <label for="GenreId">Genre Name <span class="text-danger">*</span></label>
+                                    <span class="text-danger" asp-validation-for="GenreId"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" placeholder="Fullname" asp-for="Title" />
+                                    <label for="Title">Title <span class="text-danger">*</span></label>
+                                    <span class="text-danger" asp-validation-for="Title"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <div class="input-group">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="text" class="form-control" placeholder="Code" asp-for="Code" readonly />
+                                        <label for="Code">Code <span class="text-danger">*</span></label>
+                                    </div>
+                                    <button class="btn btn-outline-primary waves-effect" type="button" id="btn-generate-code">Generate</button>
+                                </div>
+                            </div>
+                            <div class="ccol-md-12 mb-4">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" placeholder="Available" asp-for="Available" />
+                                    <label for="Available">Available <span class="text-danger">*</span></label>
+                                    <span class="text-danger" asp-validation-for="Available"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <div class="input-group input-group-merge">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="text" class="form-control" placeholder="Price" asp-for="Price" />
+                                        <label for="Price">Price</label>
+                                    </div>
+                                    <span class="input-group-text">VND</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" placeholder="Publisher" asp-for="Publisher" />
+                                    <label for="Publisher">Publisher <span class="text-danger">*</span></label>
+                                    <span class="text-danger" asp-validation-for="Publisher"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" placeholder="Author" asp-for="Author" />
+                                    <label for="Author">Author <span class="text-danger">*</span></label>
+                                    <span class="text-danger" asp-validation-for="Author"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12 mb-4">
+                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                    @{
+                                        if (Model.Id != 0)
+                                        {
+                                            <img src="~/images/book/@(Model.Id).png" alt="book-avatar" class="d-block w-px-120 h-px-120 rounded" id="img-upload">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/no-image.jpg" alt="user-avatar" class="d-block w-px-120 h-px-120 rounded" id="img-upload">
+                                        }
+                                    }
+
+                                    <div class="button-wrapper">
+                                        <label for="upload" class="btn btn-primary me-2 mb-3 waves-effect waves-light" tabindex="0">
+                                            <span class="d-none d-sm-block">Upload new photo</span>
+                                            <i class="mdi mdi-tray-arrow-up d-block d-sm-none"></i>
+                                            <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" asp-for="Image">
+                                        </label>
+
+                                        <div class="text-muted small">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <textarea asp-for="Description" class="form-control h-px-200" placeholder="Discriptions here..."></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary me-2 waves-effect waves-light">Save changes</button>
+                            <a class="btn btn-outline-secondary waves-effect" href="index">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/admin/components/book_savedata.js"></script>
+}
+
+

@@ -1,5 +1,6 @@
 ﻿using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.ViewModal;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookSale.Management.Application.Abtracts
 {
@@ -8,6 +9,7 @@ namespace BookSale.Management.Application.Abtracts
         Task<bool> DeleteAsync(int id);
         Task<GenreViewModal> GetById(int id);
         Task<ResponseDatatable<GenreDTO>> GetGenreByPagination(RequestDatatable request);
+        Task<IEnumerable<SelectListItem>> GetGenreForDropdownList();
         Task<ResponseModel> Save(GenreViewModal genreDTO);
     }
 }

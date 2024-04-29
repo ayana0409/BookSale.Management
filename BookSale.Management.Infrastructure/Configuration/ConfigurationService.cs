@@ -50,6 +50,7 @@ namespace BookSale.Management.DataAccess.Configuration
             services.AddTransient<ISQLQueryHandler, SQLQueryHandler>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();

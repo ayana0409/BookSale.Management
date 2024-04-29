@@ -6,14 +6,14 @@ namespace BookSale.Managament.Domain.Entities
     public class Book : BaseEntity
     {
         [Required]
-        [StringLength(500)]
-        public string? Code { get; set; }
+        [StringLength(20)]
+        public string Code { get; set; }
         [Required]
         [StringLength(500)]
-        public string? Title { get; set; }
+        public string Title { get; set; }
         [Required]
-        [StringLength(500)]
-        public string? Author { get; set; }
+        [StringLength(250)]
+        public string Author { get; set; }
         [StringLength(500)]
         public string? Publisher { get; set; }
         [Required]
@@ -21,9 +21,12 @@ namespace BookSale.Managament.Domain.Entities
         public Double Price { get; set; }
         public DateTime CreatedOn { get; set; }
         [Required]
+        [StringLength(500)]
+        public string? Description { get; set; }
+        [Required]
+        [ForeignKey(nameof(Genre))]
         public int GenreId { get; set; }
-        [ForeignKey(nameof(GenreId))]
-        public Genre? Genre { get; set; }
+        public Genre Genre { get; set; }
         [Required]
         public bool IsActive { get; set; }
     }

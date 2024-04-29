@@ -15,6 +15,7 @@ namespace BookSale.Management.Application.Configuration
 
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<Genre, GenreViewModal>().ReverseMap();
+            CreateMap<Book, BookViewModal>().ReverseMap();
             CreateMap<Book, BookDTO>().ReverseMap();
         }
     }
