@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.DTOs;
+using BookSale.Management.Application.DTOs.Books;
+using BookSale.Management.Application.DTOs.Genre;
 using BookSale.Management.Application.DTOs.ViewModal;
 
 namespace BookSale.Management.Application.Configuration

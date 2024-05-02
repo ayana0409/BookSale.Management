@@ -1,5 +1,7 @@
 ﻿using BookSale.Management.Application.DTOs;
+using BookSale.Management.Application.DTOs.Books;
 using BookSale.Management.Application.DTOs.ViewModal;
+using BookSale.Management.UI.Models;
 
 namespace BookSale.Management.Application.Abtracts
 {
@@ -8,7 +10,7 @@ namespace BookSale.Management.Application.Abtracts
         Task<ResponseModel> DeleteAsync(int id);
         Task<string> GenerateCodeAsync(int number = 10);
         Task<ResponseDatatable<BookDTO>> GetBookByPagination(RequestDatatable request);
-        Task<(IEnumerable<BookDTO>, int)> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 10);
+        Task<BookForSiteDTO> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 12);
         Task<BookViewModal> GetById(int id);
         Task<ResponseModel> SaveAsync(BookViewModal bookVM);
     }

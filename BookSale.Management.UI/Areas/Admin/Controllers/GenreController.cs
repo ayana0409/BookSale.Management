@@ -43,7 +43,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveData(GenreViewModal genreViewModal)
         {
-            ResponseModel responseModel = new ResponseModel() { 
+            ResponseModel responseModel = new() { 
                                            Message = $"{(genreViewModal.Id == 0 ? "Insert" : "Update")} failes.",
                                            Status = false};
             if (ModelState.IsValid)

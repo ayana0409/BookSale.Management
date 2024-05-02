@@ -2,6 +2,6 @@
 {
     public class CommonConstant
     {
-        public static int BookPageSize = 10;
+        public const int BookPageSize = 12;
     }
 }

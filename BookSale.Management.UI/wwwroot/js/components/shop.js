@@ -1,0 +1,80 @@
+﻿(function () {
+
+    function initial() {
+        resisterEvent();
+    }
+
+    function resisterEvent() {
+        $(document).on('click', '#btn-load-more', function () {
+            $.blockUI;
+
+            const genreId = $('#current-genre').val();
+            const pageIndex = parseInt($('#current-page-index').val()) + 1;
+
+            $.ajax({
+                url: `/shop/getbookbypanigation?genre=${genreId}&pageIndex=${pageIndex}`,
+                method: 'GET',
+                success: function (response) {
+
+                    if (response) {
+                        let html = '';
+
+
+                        response.books.forEach((book, index) => {
+                            html += `<div class="col">
+                                <div class="card h-100">
+                                    <img class="card-img-top" style="height: 80%; max-height: 300px;" src="/images/book/${book.id}.png" alt="Book image">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${book.title}</h5>
+                                        <p class="card-text">
+                                            ${book.price.toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            })}
+                                        </p>
+                                    </div>
+                                    <div class="overlay">
+                                        <div class="overlay-text">
+                                            <a href="#" class="text-white">
+                                                <svg role="presentation" viewBox="0 0 24 24" style="height: 3rem; width: 3rem;"><title>View</title><path d="M9.5,13.09L10.91,14.5L6.41,19H10V21H3V14H5V17.59L9.5,13.09M10.91,9.5L9.5,10.91L5,6.41V10H3V3H10V5H6.41L10.91,9.5M14.5,13.09L19,17.59V14H21V21H14V19H17.59L13.09,14.5L14.5,13.09M13.09,9.5L17.59,5H14V3H21V10H19V6.41L14.5,10.91L13.09,9.5Z" style="fill: currentcolor;"></path></svg>
+                                            </a>
+                                        </div>
+                                        <div class="overlay-text">
+                                            <a href="#" class="text-white">
+                                                <svg role="presentation" viewBox="0 0 24 24" style="height: 3rem; width: 3rem;"><title>Add to cart</title><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" style="fill: currentcolor;"></path></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                        })
+
+                        $('#content-book').append(html);
+
+                        $('#txt-panigation').html(`${response.currentRecord} items of ${response.totalRecord}`);
+
+                        if (response.isDisable) {
+                            $('#btn-load-more').attr('disabled', 'disabled');
+                        }
+
+                        $('#current-page-index').val(pageIndex);
+
+                        $('#progress-bar').attr('style', `width: ${response.proressingValue}%`);
+
+                        $.unblockUI;
+
+                    }
+
+
+                }
+            })
+
+
+        });
+
+
+    }
+
+    initial();
+
+})()

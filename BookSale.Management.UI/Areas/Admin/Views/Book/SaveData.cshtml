@@ -22,9 +22,9 @@
                                     <select class="form-select color-dropdown" asp-for="GenreId">
                                         <option value="">Please select</option>
                                         @{
-                                            if (ViewBag.Genres != null)
+                                            var genres = ViewBag.Genres as IEnumerable<SelectListItem>;
+                                            if (genres != null)
                                             {
-                                                var genres = ViewBag.Genres as IEnumerable<SelectListItem>;
                                                 foreach (var genre in genres)
                                                 {
                                                     <option value="@genre.Value">@genre.Text</option>

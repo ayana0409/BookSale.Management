@@ -72,5 +72,7 @@ namespace BookSale.Management.DataAccess.Repository {
         {
             return await _applicationDbContext.Genre.FirstAsync(x => x.Id == id);
         }
+
+        public new IQueryable<Genre> Table => base.Table;
     }
 }

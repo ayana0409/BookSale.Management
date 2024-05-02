@@ -11,14 +11,14 @@ namespace BookSale.Management.DataAccess.Repository
         {
             _applicationDbContext = applicationDbContext;
         }
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression = null)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null)
         {   
             if (expression == null)
                 return await _applicationDbContext.Set<T>().ToListAsync();
 
             return await _applicationDbContext.Set<T>().Where(expression).ToListAsync();
         }
-        public async Task<T?> GetSigleAsync(Expression<Func<T, bool>> expression = null)
+        public async Task<T?> GetSigleAsync(Expression<Func<T, bool>> expression)
         {
             return await _applicationDbContext.Set<T>().FirstOrDefaultAsync(expression);
         }
@@ -42,5 +42,7 @@ namespace BookSale.Management.DataAccess.Repository
         {
             await _applicationDbContext.SaveChangesAsync();
         }
+
+        public IQueryable<T> Table => _applicationDbContext.Set<T>();
     }
 }

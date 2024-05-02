@@ -6,9 +6,8 @@ namespace BookSale.Managament.Domain.Entities
     {
         [Required]
         [StringLength(500)]
-        public string? Name { get; set; }
-        [StringLength(1000)]
-        public string? Description { get; set; }
+        public string Name { get; set; }
+        public ICollection<Book> Books { get; set; }
         [Required]
         public bool IsActive { get; set; }
     }

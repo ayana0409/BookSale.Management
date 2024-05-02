@@ -3,8 +3,10 @@ using BookSale.Managament.Domain.Entities;
 using BookSale.Managament.Domain.Enums;
 using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
+using BookSale.Management.Application.DTOs.Books;
 using BookSale.Management.Application.DTOs.ViewModal;
 using BookSale.Management.DataAccess.Repository;
+using BookSale.Management.UI.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -33,7 +35,7 @@ namespace BookSale.Management.Application.Services
         {
             int totalRecord = 0;
             IEnumerable<BookDTO> books;
-            Func<BookDTO, object> orderBy = null;
+            Func<BookDTO, object>? orderBy = null;
 
             (books, totalRecord) = await _unitOfWork.BookRepository
                                 .GetBookByPanigation<BookDTO>(request.SkipItems, request.PageSize, request.Keyword);
@@ -108,17 +110,18 @@ namespace BookSale.Management.Application.Services
             book.CreatedOn = DateTime.Now;
             var result = await _unitOfWork.BookRepository.Save(book);
 
-            if (result && bookVM.Image is not null)
-            {
-                await _imageService.SaveImage(new List<IFormFile> { bookVM.Image }, "images/book", $"{book.Id}.png");
-            }
-
             await _unitOfWork.SaveChangeAsync();
+
+            var exisBook = await _unitOfWork.BookRepository.GetByCode(bookVM.Code);
+
+            if (result && bookVM.Image is not null && exisBook is not null)
+            {
+                await _imageService.SaveImage(new List<IFormFile> { bookVM.Image }, "images/book", $"{exisBook.Id}.png");
+            }
 
             var actionType = bookVM.Id == 0 ? ActionType.Insert : ActionType.Update;
             var successMessage = $"{(book.Id == 0 ? "Insert" : "Update")} successful.";
             var failureMessage = $"{(book.Id == 0 ? "Insert" : "Update")} failed.";
-
 
             return new ResponseModel
             {
@@ -130,7 +133,7 @@ namespace BookSale.Management.Application.Services
 
         public async Task<string> GenerateCodeAsync(int number = 10)
         {
-            string code = string.Empty;
+            string code;
 
             while (true)
             {
@@ -164,16 +167,30 @@ namespace BookSale.Management.Application.Services
             };
         }
 
-        public async Task<(IEnumerable<BookDTO>, int)> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 10)
+        public async Task<BookForSiteDTO> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 12)
         {
-            int totalRecord = 0;
+            int totalRecord;
             IEnumerable<Book> books;
 
             (books, totalRecord) = await _unitOfWork.BookRepository.GetBookForSite(genreId, pageIndex, pageSize);
 
             var bookDTOs = _mapper.Map<IEnumerable<BookDTO>>(books);
 
-            return (bookDTOs, totalRecord);
+            int currentDisplayingItem = totalRecord - (pageIndex * pageSize) <= 0 ? totalRecord : pageIndex * pageSize;
+
+            bool isDisableBtn = totalRecord - (pageIndex * pageSize) <= 0 ? true : false;
+
+            double prosessingValue = (pageIndex * pageSize * 100) / totalRecord;
+
+            return new BookForSiteDTO
+            {
+                Books = bookDTOs,
+                TotalRecord = totalRecord,
+                CurrentRecord = currentDisplayingItem,
+                IsDisable = isDisableBtn,
+                ProressingValue = prosessingValue
+            };
+
         }
     }
 }

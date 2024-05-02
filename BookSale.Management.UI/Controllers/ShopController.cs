@@ -1,6 +1,10 @@
-﻿using BookSale.Managament.Domain.Setting;
+﻿using BookSale.Managament.Domain.Entities;
+using BookSale.Managament.Domain.Setting;
 using BookSale.Management.Application.Abtracts;
+using BookSale.Management.Application.DTOs.Books;
+using BookSale.Management.UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Printing;
 
 namespace BookSale.Management.UI.Controllers
 {
@@ -16,17 +20,24 @@ namespace BookSale.Management.UI.Controllers
         }
         public async Task<IActionResult> Index(int g = 0, int idx = 1)
         {
-            var genres = await _genreService.GetGenreForDropdownList();
-
-            int pageSize = CommonConstant.BookPageSize;
+            var genres = _genreService.GetGenreListForSite();
 
             ViewBag.Genres = genres;
+            ViewBag.CurrentGenre = g;
+            ViewBag.CurrentPageIndex = idx;
 
-            var books = await _bookService.GetBookForSiteAsync(g, idx, pageSize);
+            var result = await _bookService.GetBookForSiteAsync(g, idx, CommonConstant.BookPageSize);
 
-            ViewBag.TotalItem = books.Item2;
+            return View(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetBookByPanigation(int genre, int pageIndex)
+        {
+            int pageSize = CommonConstant.BookPageSize;
 
-            return View(books.Item1);
+            var result = await _bookService.GetBookForSiteAsync(genre, pageIndex, pageSize);
+
+            return Json(result);
         }
     }
 }

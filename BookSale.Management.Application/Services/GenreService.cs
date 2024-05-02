@@ -2,6 +2,7 @@
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
+using BookSale.Management.Application.DTOs.Genre;
 using BookSale.Management.Application.DTOs.ViewModal;
 using BookSale.Management.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity;
@@ -114,6 +115,18 @@ namespace BookSale.Management.Application.Services
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<GenreSiteDTO> GetGenreListForSite()
+        {
+            var result = _unitOfWork.GenreRepository.Table.Select(x => new GenreSiteDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                TotalBooks = x.Books.Where(x=>x.IsActive).Count()
+            });
+
+            return result;
         }
     }
 }
