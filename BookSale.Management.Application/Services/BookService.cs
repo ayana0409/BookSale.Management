@@ -180,7 +180,7 @@ namespace BookSale.Management.Application.Services
 
             bool isDisableBtn = totalRecord - (pageIndex * pageSize) <= 0 ? true : false;
 
-            double prosessingValue = (pageIndex * pageSize * 100) / totalRecord;
+            double prosessingValue = totalRecord != 0 ? (pageIndex * pageSize * 100) / totalRecord : 100;
 
             return new BookForSiteDTO
             {

@@ -2,7 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model IEnumerable<BookSale.Management.Application.DTOs.Books.BookDTO>
+<link href="~/lib/splide.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md">
+        <h1 class="text-center">Welcome to Book Sale Managment</h1>
+
+        <div class="mt-5">
+            <section class="splide">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        @{
+                            foreach (var book in Model)
+                            {
+                                <li class="splide__slide px-2">
+                                    <partial name="~/Views/Shop/_ProductItems.cshtml" model="book" />
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </section>
+        </div>
+        
+    </div>
 </div>
+
+@section Scripts {
+    <script src="~/lib/splide.min.js"></script>
+    <script>
+        $(function () {
+            var splide = new Splide('.splide', {
+                type: 'loop',
+                perPage: 3,
+                perMove: 1,
+                autoHeight: true,
+                focus: 0,
+                omitEnd: true,
+            });
+
+            splide.mount();
+        });
+    </script>
+
+}
+
+
