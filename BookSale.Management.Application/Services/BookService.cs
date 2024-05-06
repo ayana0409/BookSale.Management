@@ -8,11 +8,6 @@ using BookSale.Management.Application.DTOs.ViewModal;
 using BookSale.Management.DataAccess.Repository;
 using BookSale.Management.UI.Models;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookSale.Management.Application.Services
 {

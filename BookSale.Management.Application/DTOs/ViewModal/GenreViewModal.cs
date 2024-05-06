@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookSale.Management.Application.DTOs.ViewModal
 {
@@ -9,7 +8,7 @@ namespace BookSale.Management.Application.DTOs.ViewModal
 
         [Required(ErrorMessage = "Genre name must be not emty.")]
         public string Name { get; set; }
-        
+
         public bool? IsActive { get; set; } = false;
     }
 }

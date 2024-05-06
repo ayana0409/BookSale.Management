@@ -2,25 +2,18 @@
 using BookSale.Managament.Domain.Setting;
 using BookSale.Management.DataAccess.DataAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookSale.Management.DataAccess
 {
     public static class ConfigurationService
     {
         public static void AutoMigration(this WebApplication webApplication)
-        { 
-            using(var scope = webApplication.Services.CreateScope())
+        {
+            using (var scope = webApplication.Services.CreateScope())
             {
                 var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
@@ -28,7 +21,7 @@ namespace BookSale.Management.DataAccess
                 //appContext.Database.EnsureCreated();
                 appContext.Database.MigrateAsync().Wait();
             }
-        } 
+        }
 
         public static async Task SeedData(this WebApplication webApplication, IConfiguration configuration)
         {

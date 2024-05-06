@@ -5,11 +5,7 @@ using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.Genre;
 using BookSale.Management.Application.DTOs.ViewModal;
 using BookSale.Management.DataAccess.Repository;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookSale.Management.Application.Services
 {
@@ -123,7 +119,7 @@ namespace BookSale.Management.Application.Services
             {
                 Id = x.Id,
                 Name = x.Name,
-                TotalBooks = x.Books.Where(x=>x.IsActive).Count()
+                TotalBooks = x.Books.Where(x => x.IsActive).Count()
             });
 
             return result;

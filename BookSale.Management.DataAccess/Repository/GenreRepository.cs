@@ -2,10 +2,9 @@
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.DataAccess.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.IdentityModel.Tokens;
 
-namespace BookSale.Management.DataAccess.Repository {
+namespace BookSale.Management.DataAccess.Repository
+{
 
     public class GenreRepository : BaseRepository<Genre>, IGenreRepository
     {
@@ -28,7 +27,7 @@ namespace BookSale.Management.DataAccess.Repository {
 
         public async Task<Genre> GetById(int id)
         {
-            return  await GetSigleAsync(x => x.Id == id);
+            return await GetSigleAsync(x => x.Id == id);
         }
 
         public async Task<bool> AddAsync(Genre genre)

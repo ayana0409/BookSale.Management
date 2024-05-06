@@ -1,8 +1,6 @@
-﻿using BookSale.Managament.Domain.Abtract;
-using BookSale.Management.Application.Abtracts;
+﻿using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.ViewModal;
-using BookSale.Management.Application.Services;
 using BookSale.Management.UI.Ultility;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +31,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             ViewBag.Genres = genreList;
 
             string code = await _bookService.GenerateCodeAsync();
-            bookVM.Code = code; 
+            bookVM.Code = code;
 
             if (id != 0)
             {
@@ -64,7 +62,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
                 return View();
             }
-            
+
             return View();
         }
 

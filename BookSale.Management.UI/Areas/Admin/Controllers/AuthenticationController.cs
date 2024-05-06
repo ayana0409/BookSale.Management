@@ -12,7 +12,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
         private readonly IAuthenticationService _authenticationService;
         private readonly SignInManager<ApplicationUser> _signInUser;
-        public AuthenticationController(IAuthenticationService authenticationService, SignInManager<ApplicationUser> signInUser) 
+        public AuthenticationController(IAuthenticationService authenticationService, SignInManager<ApplicationUser> signInUser)
         {
             _authenticationService = authenticationService;
             _signInUser = signInUser;
@@ -48,8 +48,8 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
             return View(loginModel);
         }
-        
-      public async Task<IActionResult> Logout()
+
+        public async Task<IActionResult> Logout()
         {
             await _signInUser.SignOutAsync();
             return View("Login");

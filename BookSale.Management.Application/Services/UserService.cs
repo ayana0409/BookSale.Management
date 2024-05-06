@@ -4,9 +4,7 @@ using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 namespace BookSale.Management.Application.Services
 {
     public class UserService : IUserService
@@ -39,25 +37,27 @@ namespace BookSale.Management.Application.Services
                                                    || x.FullName.Contains(request.Keyword)
                                                    || x.PhoneNumber.Contains(request.Keyword)))
                                                  )
-                                          .Select(x => new UserModel {
-                                                    ID = x.Id,
-                                                    UserName = x.UserName,
-                                                    Email = x.Email,
-                                                    FullName = x.FullName,
-                                                    Phone = x.PhoneNumber,
-                                                    IsActived = x.IsActive ? "Yes" : "No"
+                                          .Select(x => new UserModel
+                                          {
+                                              ID = x.Id,
+                                              UserName = x.UserName,
+                                              Email = x.Email,
+                                              FullName = x.FullName,
+                                              Phone = x.PhoneNumber,
+                                              IsActived = x.IsActive ? "Yes" : "No"
                                           }).ToListAsync();
 
             int totalRecord = users.Count;
 
             var result = users.Skip(request.SkipItems).Take(request.PageSize).ToList();
 
-            return new ResponseDatatable<UserModel> {
-                                                    Draw = request.Draw,
-                                                    RecordsTotal = totalRecord,
-                                                    RecordsFiltered = totalRecord,
-                                                    Data = result
-                                                    };
+            return new ResponseDatatable<UserModel>
+            {
+                Draw = request.Draw,
+                RecordsTotal = totalRecord,
+                RecordsFiltered = totalRecord,
+                Data = result
+            };
         }
 
         public async Task<AccountDTO> GetUserById(string id)
@@ -93,7 +93,7 @@ namespace BookSale.Management.Application.Services
 
                 identityResult = await _userManager.CreateAsync(applicationUser, account.Password);
 
-                if(identityResult.Succeeded)
+                if (identityResult.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(applicationUser, account.RoleName);
 
@@ -151,7 +151,7 @@ namespace BookSale.Management.Application.Services
             return new ResponseModel
             {
                 Action = Managament.Domain.Enums.ActionType.Insert,
-                Message = $"{(string.IsNullOrEmpty(account.Id)? "Insert" : "Update")} failes. {errors}",
+                Message = $"{(string.IsNullOrEmpty(account.Id) ? "Insert" : "Update")} failes. {errors}",
                 Status = false,
             };
         }

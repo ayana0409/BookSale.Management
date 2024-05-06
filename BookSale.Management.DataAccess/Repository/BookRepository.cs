@@ -3,12 +3,6 @@ using BookSale.Managament.Domain.Entities;
 using BookSale.Management.DataAccess.DataAccess;
 using BookSale.Management.Doman;
 using Dapper;
-using Microsoft.EntityFrameworkCore.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookSale.Management.DataAccess.Repository
 {
@@ -34,7 +28,7 @@ namespace BookSale.Management.DataAccess.Repository
 
             var result = await _sQLQueryHandler.ExecuteStoreProdecureReturnListAsync<BookDTO>("GetBookByPagination", parameters);
 
-            var totalRecord = parameters.Get<int>("totalRecords"); 
+            var totalRecord = parameters.Get<int>("totalRecords");
 
             return (result, totalRecord);
         }
@@ -50,7 +44,7 @@ namespace BookSale.Management.DataAccess.Repository
         public async Task<bool> Save(Book book)
         {
             try
-            { 
+            {
                 if (book.Id == 0)
                 {
                     await base.Create(book);

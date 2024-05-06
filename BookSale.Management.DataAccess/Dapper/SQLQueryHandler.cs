@@ -1,8 +1,8 @@
-﻿using Dapper;
+﻿using BookSale.Management.Doman;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using BookSale.Management.Doman;
 
 namespace BookSale.Management.DataAccess.Dapper
 {

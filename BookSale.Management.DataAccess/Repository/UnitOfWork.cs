@@ -1,11 +1,6 @@
 ﻿using BookSale.Managament.Domain.Abtract;
 using BookSale.Management.DataAccess.DataAccess;
 using BookSale.Management.Doman;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookSale.Management.DataAccess.Repository
 {

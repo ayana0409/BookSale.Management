@@ -12,7 +12,7 @@ namespace BookSale.Management.DataAccess.Repository
             _applicationDbContext = applicationDbContext;
         }
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null)
-        {   
+        {
             if (expression == null)
                 return await _applicationDbContext.Set<T>().ToListAsync();
 

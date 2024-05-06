@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookSale.Management.Application.DTOs
 {
@@ -17,7 +12,7 @@ namespace BookSale.Management.Application.DTOs
         public string? Keyword { get; set; }
         public int Draw { get; set; }
         [BindProperty(Name = "order[0][column]")]
-        public int? OrderColunm {  get; set; }
+        public int? OrderColunm { get; set; }
         [BindProperty(Name = "order[0][dir]")]
         public string? OrderType { get; set; }
     }

@@ -1,10 +1,8 @@
 ﻿using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.ViewModal;
-using BookSale.Management.Application.Services;
 using BookSale.Management.UI.Ultility;
 using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookSale.Management.UI.Areas.Admin.Controllers
 {
@@ -43,9 +41,11 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveData(GenreViewModal genreViewModal)
         {
-            ResponseModel responseModel = new() { 
-                                           Message = $"{(genreViewModal.Id == 0 ? "Insert" : "Update")} failes.",
-                                           Status = false};
+            ResponseModel responseModel = new()
+            {
+                Message = $"{(genreViewModal.Id == 0 ? "Insert" : "Update")} failes.",
+                Status = false
+            };
             if (ModelState.IsValid)
             {
                 responseModel = await _genreService.Save(genreViewModal);

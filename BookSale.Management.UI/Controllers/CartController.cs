@@ -1,7 +1,6 @@
 ﻿using BookSale.Management.Application.Abtracts;
 using BookSale.Management.UI.Models;
 using BookSale.Management.UI.Ultility;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookSale.Management.UI.Controllers
@@ -13,14 +12,14 @@ namespace BookSale.Management.UI.Controllers
 
         public CartController(IBookService bookService)
         {
-            _bookService = bookService;
+                _bookService = bookService;
         }
         public async Task<IActionResult> Index()
         {
             var carts = HttpContext.Session.Get<List<CartModel>>(CartSessionName);
 
-            if (carts is not null) 
-            { 
+            if (carts is not null)
+            {
                 var codes = carts.Select(x => x.BookCode).ToArray();
 
                 var books = await _bookService.GetBookByListCodeAsync(codes);
@@ -71,7 +70,7 @@ namespace BookSale.Management.UI.Controllers
                 HttpContext.Session.Set(CartSessionName, carts);
 
                 return Json(carts.Count);
-            } 
+            }
             catch (Exception)
             {
 

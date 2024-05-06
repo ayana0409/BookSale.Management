@@ -17,9 +17,9 @@ namespace BookSale.Management.UI.Ultility
         {
             if (context.Controller is Controller controller)
             {
-                string controllerName = controller.GetType().Name.Replace("Controller","");
+                string controllerName = controller.GetType().Name.Replace("Controller", "");
 
-                string path = string.IsNullOrEmpty(_masterName)? $"{controllerName}" : $"{_masterName}/{controllerName}/{_title}";
+                string path = string.IsNullOrEmpty(_masterName) ? $"{controllerName}" : $"{_masterName}/{controllerName}/{_title}";
 
                 controller.ViewData["Breadscumb"] = new BreadscumbModel
                 {

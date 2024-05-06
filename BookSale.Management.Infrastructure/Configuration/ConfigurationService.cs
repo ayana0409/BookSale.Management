@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Identity.Client;
 
 namespace BookSale.Management.DataAccess.Configuration
 {
@@ -41,7 +40,7 @@ namespace BookSale.Management.DataAccess.Configuration
                 option.Lockout.MaxFailedAccessAttempts = 3;
             });
 
-            
+
         }
 
         public static void AddDependencyInjection(this IServiceCollection services)

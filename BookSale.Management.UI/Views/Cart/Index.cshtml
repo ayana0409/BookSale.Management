@@ -3,7 +3,13 @@
 
 
 <div class="card">
-    <h5 class="card-header">List</h5>
+    <h3 class="card-header">
+        <b>CART ITEMS</b> 
+        <button type="button" class="btn btn-primary waves-effect waves-light" style="float: right">
+            <span class="tf-icons mdi mdi-content-save me-1"></span>Save
+        </button>
+    </h3>
+    
     <div class="table-responsive text-nowrap">
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -17,20 +23,22 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbody-cart">
                 @{
                     double totalCart = 0;
+                    int totalItems = 0;
                     if (Model is not null)
                     {
                         foreach (var book in Model)
                         {
+                            totalItems++;
                             <tr>
-                                <td width="80px">1</td>
+                                <td width="80px">@totalItems</td>
                                 <td class="text-center" style="width: 100px"><img src="~/images/book/@(book.Id).png" style="height: 150; max-width:150px" /></td>
                                 <td>@book.Title</td>
-                                <td width="150px"><input type="number" value="@book.Quantity" class="form-control" /></td>
-                                <td width="150px">@book.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
-                                <td width="150px">@((book.Quantity * book.Price).ToString("C", CultureInfo.GetCultureInfo("vi-VN")))</td>
+                                <td width="150px"><input min="0" type="number" value="@book.Quantity" class="form-control txt-quantity" data-code="@book.Code" /></td>
+                                <td width="150px" class="txt-price">@book.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                <td width="150px" class="txt-total">@((book.Quantity * book.Price).ToString("C", CultureInfo.GetCultureInfo("vi-VN")))</td>
                                 <td width="50px"><img src="~/images/trash-icon.png" width="32px" /></td>
                             </tr>
 
@@ -46,10 +54,15 @@
                 }
 
                 <tr>
-                    <td colspan="5"><b>Total</b></td>
-                    <td colspan="2"><b>@totalCart.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b></td>
+                    <td colspan="3"></td>
+                    <td colspan="2"><b>Total:</b></td>
+                    <td colspan="2" id="txt-total-cart"><b>@totalCart.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/components/cart.js"></script>
+}

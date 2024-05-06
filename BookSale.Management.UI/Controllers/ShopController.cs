@@ -1,10 +1,6 @@
-﻿using BookSale.Managament.Domain.Entities;
-using BookSale.Managament.Domain.Setting;
+﻿using BookSale.Managament.Domain.Setting;
 using BookSale.Management.Application.Abtracts;
-using BookSale.Management.Application.DTOs.Books;
-using BookSale.Management.UI.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
 
 namespace BookSale.Management.UI.Controllers
 {

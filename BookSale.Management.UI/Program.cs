@@ -1,8 +1,5 @@
 ﻿using BookSale.Management.DataAccess;
 using BookSale.Management.DataAccess.Configuration;
-using BookSale.Management.DataAccess.DataAccess;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
