@@ -1,5 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using System.Globalization
+@model IEnumerable<BookSale.Management.Application.DTOs.Books.BookCartDTO>;
+
+
+<div class="card">
+    <h5 class="card-header">List</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    double totalCart = 0;
+                    if (Model is not null)
+                    {
+                        foreach (var book in Model)
+                        {
+                            <tr>
+                                <td width="80px">1</td>
+                                <td class="text-center" style="width: 100px"><img src="~/images/book/@(book.Id).png" style="height: 150; max-width:150px" /></td>
+                                <td>@book.Title</td>
+                                <td width="150px"><input type="number" value="@book.Quantity" class="form-control" /></td>
+                                <td width="150px">@book.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                <td width="150px">@((book.Quantity * book.Price).ToString("C", CultureInfo.GetCultureInfo("vi-VN")))</td>
+                                <td width="50px"><img src="~/images/trash-icon.png" width="32px" /></td>
+                            </tr>
+
+                            totalCart += book.Quantity * book.Price;
+                        }
+                    }
+                    else
+                    {
+                        <tr class="text-center">
+                            <td colspan="7">No item in cart</td>
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <td colspan="5"><b>Total</b></td>
+                    <td colspan="2"><b>@totalCart.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

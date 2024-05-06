@@ -45,6 +45,7 @@ namespace BookSale.Management.DataAccess.Repository
         }
 
         public async Task<Book?> GetByCode(string code) => await base.GetSigleAsync(x => x.Code == code);
+        public async Task<IEnumerable<Book?>> GetBookByListCode(string[] codes) => await base.GetAllAsync(x => codes.Contains(x.Code));
 
         public async Task<bool> Save(Book book)
         {

@@ -192,5 +192,14 @@ namespace BookSale.Management.Application.Services
             };
 
         }
+
+        public async Task<IEnumerable<BookCartDTO>> GetBookByListCodeAsync(string[] codes)
+        {
+            var books = await _unitOfWork.BookRepository.GetBookByListCode(codes);
+
+            var result = _mapper.Map<IEnumerable<BookCartDTO>>(books);
+
+            return result;
+        }
     }
 }

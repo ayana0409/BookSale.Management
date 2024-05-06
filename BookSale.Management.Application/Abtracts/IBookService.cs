@@ -9,6 +9,7 @@ namespace BookSale.Management.Application.Abtracts
     {
         Task<ResponseModel> DeleteAsync(int id);
         Task<string> GenerateCodeAsync(int number = 10);
+        Task<IEnumerable<BookCartDTO>> GetBookByListCodeAsync(string[] codes);
         Task<ResponseDatatable<BookDTO>> GetBookByPagination(RequestDatatable request);
         Task<BookForSiteDTO> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 12);
         Task<BookViewModal> GetById(int id);
