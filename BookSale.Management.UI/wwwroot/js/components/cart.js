@@ -18,6 +18,10 @@
                 currency: 'VND'
             }));
 
+            calculateCartTotal();
+        });
+
+        function calculateCartTotal() {
             let totalCart = 0;
             const trs = $('#tbody-cart tr');
 
@@ -35,7 +39,75 @@
                 style: 'currency',
                 currency: 'VND'
             }));
+        }
+
+        $(document).on('click', '#btn-save-cart', function () {
+            $.blockUI();
+
+            const trs = $('#tbody-cart tr');
+
+            let books = [];
+
+            for (var i = 0; i < trs.length; i++) {
+                if (i === trs.length - 1) {
+                    break;
+                }
+
+                const quantity = parseFloat($(trs[i]).find('.txt-quantity').val());
+
+                const code = $(trs[i]).data('code');
+
+                books.push({ bookCode: code, quantity });
+            }
+
+            $.ajax({
+                url: '/cart/update',
+                method: 'POST',
+                data: JSON.stringify(books),
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response) {
+                        showToaster('Success', 'Save cart successful');
+                    }
+                    else {
+                        showToaster('Error', 'Save cart failed');
+                    }
+                    $.unblockUI();
+                },
+                error: function () {
+                    $.blockUI();
+                }
+            })
         });
+
+        $(document).on('click', '.btn-delete-cart', function () {
+
+            const seft = $(this);
+            const code = seft.closest('tr').data('code');
+
+            $.ajax({
+                url: `/cart/delete?code=${code}`,
+                method: 'POST',
+                success: function (response) {
+                    if (response) {
+                        seft.closest('tr').remove();
+                        calculateCartTotal();
+                        $('.cart-number').text($('#tbody-cart tr').length - 1);
+
+                        showToaster('Success', 'Delete successful');
+                    }
+                    else {
+                        showToaster('Error', 'Delete failed');
+                    }
+                    $.unblockUI();
+                },
+                error: function () {
+                    $.blockUI();
+                }
+            })
+
+
+        })
     }
 
     initial();

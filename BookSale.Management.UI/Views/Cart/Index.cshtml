@@ -5,7 +5,7 @@
 <div class="card">
     <h3 class="card-header">
         <b>CART ITEMS</b> 
-        <button type="button" class="btn btn-primary waves-effect waves-light" style="float: right">
+        <button type="button" id="btn-save-cart" class="btn btn-primary waves-effect waves-light" style="float: right">
             <span class="tf-icons mdi mdi-content-save me-1"></span>Save
         </button>
     </h3>
@@ -32,14 +32,16 @@
                         foreach (var book in Model)
                         {
                             totalItems++;
-                            <tr>
+                            <tr data-code="@book.Code">
                                 <td width="80px">@totalItems</td>
                                 <td class="text-center" style="width: 100px"><img src="~/images/book/@(book.Id).png" style="height: 150; max-width:150px" /></td>
                                 <td>@book.Title</td>
-                                <td width="150px"><input min="0" type="number" value="@book.Quantity" class="form-control txt-quantity" data-code="@book.Code" /></td>
+                                <td width="150px"><input min="0" type="number" value="@book.Quantity" class="form-control txt-quantity" /></td>
                                 <td width="150px" class="txt-price">@book.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
                                 <td width="150px" class="txt-total">@((book.Quantity * book.Price).ToString("C", CultureInfo.GetCultureInfo("vi-VN")))</td>
-                                <td width="50px"><img src="~/images/trash-icon.png" width="32px" /></td>
+                                <td width="50px">
+                                    <a href="#" class="btn-delete-cart"><img src="~/images/trash-icon.png" width="32px" /></a>
+                                </td>
                             </tr>
 
                             totalCart += book.Quantity * book.Price;

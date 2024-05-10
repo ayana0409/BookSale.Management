@@ -4,7 +4,7 @@
     {
         public string GenerateRandomCode(int number)
         {
-            string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@!#";
+            string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@!";
 
             Random random = new();
 

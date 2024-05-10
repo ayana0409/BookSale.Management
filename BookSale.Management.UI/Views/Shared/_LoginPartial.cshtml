@@ -24,10 +24,10 @@
                 <a class="nav-item nav-link px-2" asp-area="" asp-controller="Shop" asp-action="Index">Shop</a>
             </div>
 
-            <a asp-controller="cart" asp-action="index" class="text-primary">
+            <a asp-controller="cart" asp-action="index" class="text-primary waves-effect waves-light">
                 <img src="~/images/cart-icon.png" />
             </a>
-            <span class="badge badge-center rounded-pill bg-label-primary cart-number">0</span>
+            <span class="badge badge-center rounded-pill bg-label-primary cart-number">@(ViewData["NumberCart"] is null ? 0 : Convert.ToInt32(ViewData["NumberCart"]))</span>
 
             @if (SignInManager.IsSignedIn(User))
             {
