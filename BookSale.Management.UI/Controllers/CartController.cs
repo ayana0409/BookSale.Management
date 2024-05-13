@@ -22,7 +22,6 @@ namespace BookSale.Management.UI.Controllers
 
             if (carts is not null)
             {
-                ViewData["NumberCart"] = carts.Count;
                 var codes = carts.Select(x => x.BookCode).ToArray();
 
                 var books = await _bookService.GetBookByListCodeAsync(codes);

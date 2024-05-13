@@ -10,6 +10,7 @@ namespace BookSale.Management.DataAccess.Repository
         private readonly ISQLQueryHandler _sQLQueryHandler;
         private IGenreRepository? _genreRepository;
         private IBookRepository? _bookRepository;
+        private IUserAddressRepository? _userAddressRepository;
         public UnitOfWork(ApplicationDbContext applicationDbContext, ISQLQueryHandler sQLQueryHandler)
         {
             _applicationDbContext = applicationDbContext;
@@ -17,6 +18,7 @@ namespace BookSale.Management.DataAccess.Repository
         }
         public IGenreRepository GenreRepository => _genreRepository ??= new GenreRepository(_applicationDbContext);
         public IBookRepository BookRepository => _bookRepository ??= new BookRepository(_applicationDbContext, _sQLQueryHandler);
+        public IUserAddressRepository UserAddressRepository => _userAddressRepository ??= new UserAddressRepository(_applicationDbContext);
 
         public async Task SaveChangeAsync()
         {

@@ -1,5 +1,10 @@
 ﻿(function () {
     function initial() {
+        const amountItems = $('#tbody-cart tr').length - 1;
+
+        if (!amountItems) {
+            $('#btn-checkout').addClass('disabled');
+        }
         registerEvents();
     }
 
@@ -91,10 +96,16 @@
                 success: function (response) {
                     if (response) {
                         seft.closest('tr').remove();
+                        
                         calculateCartTotal();
-                        $('.cart-number').text($('#tbody-cart tr').length - 1);
 
+                        const amountItems = $('#tbody-cart tr').length - 1;
+                        $('.cart-number').text(amountItems);
                         showToaster('Success', 'Delete successful');
+
+                        if (!amountItems) {
+                            $('#btn-checkout').addClass('disabled');
+                        }
                     }
                     else {
                         showToaster('Error', 'Delete failed');

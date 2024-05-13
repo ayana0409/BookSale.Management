@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BookSale.Management.Application.DTOs.User.UserAdressDTO>;
+
+<div class="modal" id="address-modal" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Choose address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="demo-inline-spacing mt-3">
+                    <ul class="list-group">
+                        <li class="list-group-item active">List of address</li>
+                        @{
+                            if (Model is not null)
+                            {
+                                int index = 1;
+                                foreach (var address in Model)
+                                {
+                                    <li class="list-group-item address"
+                                        data-id="@address.Id"
+                                        data-fullname="@address.FullName"
+                                        data-phone="@address.PhoneNumber"
+                                        data-address="@address.Address"
+                                        title="<ul class='list-group'>
+                                            <li class='list-group-item'><b>@address.FullName</b></li>
+                                            <li class='list-group-item'><b>@address.PhoneNumber</b></li>
+                                            <li class='list-group-item'>@address.Address</li>
+                                        </ul>">
+                                         <a href="#">Address @index</a></li>
+                                    index++;
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

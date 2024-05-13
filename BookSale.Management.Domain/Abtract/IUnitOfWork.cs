@@ -6,6 +6,7 @@ namespace BookSale.Management.DataAccess.Repository
     {
         IBookRepository BookRepository { get; }
         IGenreRepository GenreRepository { get; }
+        IUserAddressRepository UserAddressRepository { get; }
 
         Task SaveChangeAsync();
     }

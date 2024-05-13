@@ -27,6 +27,5 @@ $(document).on('click', '.btn-add-cart', function () {
         }
     });
 
-
 });
 
