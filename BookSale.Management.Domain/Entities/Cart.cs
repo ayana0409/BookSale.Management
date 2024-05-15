@@ -5,18 +5,12 @@ namespace BookSale.Managament.Domain.Entities
 {
     public class Cart : BaseEntity
     {
+        [Required]
         [StringLength(500)]
-        public string? Code { get; set; }
-        [StringLength(500)]
-        public string? Address { get; set; }
+        public string Code { get; set; }
         [StringLength(500)]
         public string? Note { get; set; }
         public DateTime CreatedOn { get; set; }
-        [Required]
-        public bool IsActive { get; set; }
-
-        public string? UserId { get; set; }
-        [ForeignKey(nameof(UserId))]
-        public ApplicationUser? User { get; set; }
+        public short Status { get; set; }
     }
 }

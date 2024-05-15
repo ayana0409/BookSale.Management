@@ -9,17 +9,28 @@ using System.Threading.Tasks;
 
 namespace BookSale.Management.DataAccess.Repository
 {
-    public class UserAddressRepository : IUserAddressRepository
+    public class UserAddressRepository : BaseRepository<UserAddress>, IUserAddressRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
 
-        public UserAddressRepository(ApplicationDbContext applicationDbContext)
+        public UserAddressRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext) 
         {
-            _applicationDbContext = applicationDbContext;
         }
         public async Task<IEnumerable<UserAddress>> GetUserAddress(string userId)
         {
-            return await _applicationDbContext.UserAddress.Where(x => x.UserId == userId).ToListAsync();
+            return await GetAllAsync(x => x.UserId == userId && x.IsActive);
+        }
+
+        public async Task Save(UserAddress userAddress)
+        {
+            if (userAddress.Id == 0)
+            {
+                await base.Create(userAddress);
+            }
+            else
+            {
+                base.Update(userAddress);
+            }
         }
     }
 }

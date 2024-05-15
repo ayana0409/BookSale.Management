@@ -115,7 +115,7 @@ namespace BookSale.Management.Application.Services
 
         public IEnumerable<GenreSiteDTO> GetGenreListForSite()
         {
-            var result = _unitOfWork.GenreRepository.Table.Select(x => new GenreSiteDTO
+            var result = _unitOfWork.Table<Genre>().Select(x => new GenreSiteDTO
             {
                 Id = x.Id,
                 Name = x.Name,

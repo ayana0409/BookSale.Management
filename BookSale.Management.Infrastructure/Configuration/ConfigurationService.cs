@@ -5,6 +5,7 @@ using BookSale.Management.DataAccess.Dapper;
 using BookSale.Management.DataAccess.DataAccess;
 using BookSale.Management.DataAccess.Repository;
 using BookSale.Management.Doman;
+using BookSale.Management.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,7 @@ namespace BookSale.Management.DataAccess.Configuration
             services.AddTransient<ISQLQueryHandler, SQLQueryHandler>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
@@ -56,6 +58,8 @@ namespace BookSale.Management.DataAccess.Configuration
             services.AddTransient<IGenreService, GenreService>();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<IUserAddressService, UserAddressService>();
+            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<IOrderService, OrderService>();
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

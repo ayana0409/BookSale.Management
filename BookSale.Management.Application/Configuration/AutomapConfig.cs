@@ -2,7 +2,9 @@
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.Books;
+using BookSale.Management.Application.DTOs.Cart;
 using BookSale.Management.Application.DTOs.Genre;
+using BookSale.Management.Application.DTOs.Order;
 using BookSale.Management.Application.DTOs.User;
 using BookSale.Management.Application.DTOs.ViewModal;
 
@@ -21,7 +23,14 @@ namespace BookSale.Management.Application.Configuration
             CreateMap<Book, BookViewModal>().ReverseMap();
             CreateMap<Book, BookDTO>().ReverseMap();
             CreateMap<Book, BookCartDTO>().ReverseMap();
-            CreateMap<UserAddress, UserAdressDTO>();
+            CreateMap<UserAddress, UserAddressDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<CartRequestDTO, Cart>()
+                .ForMember(dest => dest.Status, source => source.MapFrom(src => Convert.ToInt16(src.Status)))
+                .ReverseMap();
+            CreateMap<OrderRequestDTO, Order>()
+                .ForMember(dest => dest.Status, source => source.MapFrom(src => Convert.ToInt16(src.Status)))
+                .ReverseMap();
         }
     }
 }

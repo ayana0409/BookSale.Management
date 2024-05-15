@@ -5,5 +5,6 @@ namespace BookSale.Management.DataAccess.Repository
     public interface IUserAddressRepository
     {
         Task<IEnumerable<UserAddress>> GetUserAddress(string userId);
+        Task Save(UserAddress userAddress);
     }
 }

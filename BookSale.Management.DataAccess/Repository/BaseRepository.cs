@@ -42,7 +42,5 @@ namespace BookSale.Management.DataAccess.Repository
         {
             await _applicationDbContext.SaveChangesAsync();
         }
-
-        public IQueryable<T> Table => _applicationDbContext.Set<T>();
     }
 }

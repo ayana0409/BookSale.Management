@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs.Books;
 using BookSale.Management.Application.DTOs.User;
@@ -21,11 +22,29 @@ namespace BookSale.Management.Application.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<UserAdressDTO>> GetUserAddressForSite(string userId)
+        public async Task<IEnumerable<UserAddressDTO>> GetUserAddressForSite(string userId)
         {
             var address = await _unitOfWork.UserAddressRepository.GetUserAddress(userId);
 
-            return _mapper.Map<IEnumerable<UserAdressDTO>>(address);
+            return _mapper.Map<IEnumerable<UserAddressDTO>>(address);
+        }
+
+        public async Task<int> SaveAsync(UserAddressDTO userAddressDTO)
+        {
+            try
+            {
+                var address = _mapper.Map<UserAddress>(userAddressDTO);
+
+                await _unitOfWork.UserAddressRepository.Save(address);
+
+                await _unitOfWork.SaveChangeAsync();
+
+                return address.Id;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
     }
 }

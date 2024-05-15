@@ -1,7 +1,10 @@
 ﻿@using BookSale.Management.Application.DTOs.Books;
-@using System.Globalization
-@model IEnumerable<BookSale.Management.Application.DTOs.User.UserAdressDTO>;
-
+@using System.Globalization;
+@using BookSale.Management.Application.DTOs.User;
+@model UserAddressDTO;
+@{
+    var listAddress = ViewBag.AddressDTOs as IEnumerable<UserAddressDTO>;
+}
 <div class="row">
     <div class="col-7">
         <div class="card mb-4">
@@ -11,25 +14,54 @@
                 <button type="button" class="btn btn-info waves-effect waves-light" id="btn-change-address" style="float:left;">Change address</button>
             </div>
             <div class="card-body">
-                <form>
+                <form asp-action="completecart" method="post">
+                    <input type="hidden" name="Id" asp-for="Id" />
+                    <input type="hidden" asp-for="OrderId" />
                     <div class="form-floating form-floating-outline mb-4">
-                        <input type="text" class="form-control" id="txtFullName" placeholder="Enter your name">
+                        <input type="text" class="form-control" asp-for="FullName" placeholder="Enter your name">
                         <label for="txtFullName">Full name</label>
+                        <span asp-validation-for="FullName"></span>
                     </div>
 
                     <div class="form-floating form-floating-outline mb-4">
-                        <input type="text" class="form-control" id="txtPhone" placeholder="Enter your number phone">
+                        <input type="text" class="form-control" asp-for="PhoneNumber" placeholder="Enter your number phone">
                         <label for="txtPhone">Phone</label>
+                        <span asp-validation-for="PhoneNumber"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input type="email" class="form-control" id="txtEmail" placeholder="Enter your e mail">
+                        <input type="email" class="form-control" asp-for="Email" placeholder="Enter your e mail">
                         <label for="txtEmail">Email</label>
+                        <span asp-validation-for="Email"></span>
                     </div>
                     <div class="form-floating form-floating-outline mb-4">
-                        <input type="text" class="form-control" id="txtAdress" placeholder="Enter your adress">
+                        <input type="text" class="form-control" asp-for="Address" placeholder="Enter your adress">
                         <label for="txtAdress">Address</label>
+                        <span asp-validation-for="Address"></span>
                     </div>
-                    <button type="button" class="btn btn-success waves-effect waves-light" style="float:left;">Complete Purchase</button>
+                    <div class="form-floating form-floating-outline mb-4">
+                        @* <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" asp-for="PaymentMethod" value="1">
+                            <label class="btn btn-outline-primary waves-effect" for="crash">Crash</label>
+                            <input type="radio" class="btn-check" name="btnradio" asp-for="PaymentMethod" value="2">
+                            <label class="btn btn-outline-primary waves-effect" for="paypal">Paypal</label>
+                        </div> *@
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="1" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"asp-for="PaymentMethod" value="2" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Paypal
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-floating form-floating-outline mb-4">
+                        <div id="paypal-button-container"></div>
+                    </div>
+                    <button type="submit" class="btn btn-success waves-effect waves-light" style="float:left;">Complete Purchase</button>
                 </form>
             </div>
         </div>
@@ -85,18 +117,12 @@
     </div>
 </div>
 
-@await Html.PartialAsync("_AddressModal.cshtml", Model)
+@await Html.PartialAsync("_AddressModal.cshtml", listAddress)
 
 
 @section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AVdTVk2LMNabyrS5oasWNDVreLvwbTwvyH4GyeTeAGrr10BjB0VAgbUGjIEgHAraKexX6xtMz793bZYq" data-namespace="paypal_sdk"></script>
     <script src="~/js/components/checkout.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.address').tooltip({
-                html: true,
-                trigger: 'hover focus',
-                template: '<div class="tooltip" role="tooltip"><div class="tooltip-inner bg-info"></div></div>',
-            });
-        });
-    </script>
 }

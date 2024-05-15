@@ -4,8 +4,6 @@ namespace BookSale.Managament.Domain.Abtract
 {
     public interface IGenreRepository
     {
-        IQueryable<Genre> Table { get; }
-
         Task<bool> AddAsync(Genre genre);
         Task<Genre> FindById(int id);
         Task<IEnumerable<Genre>> GetAllActiveGenre();
