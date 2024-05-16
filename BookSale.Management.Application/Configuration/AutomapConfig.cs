@@ -29,7 +29,6 @@ namespace BookSale.Management.Application.Configuration
                 .ForMember(dest => dest.Status, source => source.MapFrom(src => Convert.ToInt16(src.Status)))
                 .ReverseMap();
             CreateMap<OrderRequestDTO, Order>()
-                .ForMember(dest => dest.Status, source => source.MapFrom(src => Convert.ToInt16(src.Status)))
                 .ReverseMap();
         }
     }

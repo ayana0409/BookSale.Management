@@ -69,7 +69,7 @@ namespace BookSale.Management.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteCart(UserAddressDTO userAddressDTO)
         {
-            string codeOrder = $"ORDER_${DateTime.Now.ToString("ddMMyyyyhhmmss")}";
+            string codeOrder = $"ORDER_{DateTime.Now.ToString("ddMMyyyyhhmmss")}";
             if (ModelState.IsValid)
             {
                 string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? String.Empty;
@@ -78,46 +78,61 @@ namespace BookSale.Management.UI.Controllers
 
                 userAddressDTO.UserId = userId;
 
-                await _userAddressService.SaveAsync(userAddressDTO);
+                var addressId = await _userAddressService.SaveAsync(userAddressDTO);
 
                 var cart = new CartRequestDTO
                 {
                     CreatedOn = DateTime.Now,
-                    Code = $"CART_${DateTime.Now.ToString("ddMMyyyyhhmmss")}",
+                    Code = $"CART_{DateTime.Now.ToString("ddMMyyyyhhmmss")}",
                     Status = StatusProcessing.New,
                     Books = books.ToList()
                 };
 
                 var cartResult = await _cartService.Save(cart);
 
-                var order = new OrderRequestDTO
+                if (cartResult)
                 {
-                    Books = books.ToList(),
-                    CreatedOn = DateTime.Now,
-                    Code = codeOrder,
-                    PaymentMethod = userAddressDTO.PaymentMethod,
-                    Status = StatusProcessing.New,
-                    TotalAmount = 0,
-                    UserId = userId,
-                    Id = userAddressDTO.PaymentMethod == PaymentMethod.Paypal ? userAddressDTO.OrderId : Guid.NewGuid().ToString(),
-                };
-
-                var orderResult = await _orderService.Save(order);
-
-
-                if (cartResult && orderResult)
-                {
-                    var emailInfo = new EmailSetting
+                    var order = new OrderRequestDTO
                     {
-                        Name = "Trum Da Den",
-                        To = userAddressDTO.Email,
-                        Subject = "Apply email API grateway Brevo",
-                        Content = @"<h2>Checkout Complete</h2>
-                                        <p>Thanks for your order! Your order number is: @ViewBag.OrderCode</p>",
+                        Books = books.ToList(),
+                        CreatedOn = DateTime.Now,
+                        Code = codeOrder,
+                        PaymentMethod = userAddressDTO.PaymentMethod,
+                        Status = StatusProcessing.New,
+                        TotalAmount = 0,
+                        UserId = userId,
+                        AddressId = addressId,
+                        Id = userAddressDTO.PaymentMethod == PaymentMethod.Paypal ? userAddressDTO.OrderId : Guid.NewGuid().ToString(),
                     };
 
-                    await _emailService.Send(emailInfo);
+                    var orderResult = await _orderService.Save(order);
+
+
+                    if (orderResult)
+                    {
+                        var emailInfo = new EmailSetting
+                        {
+                            Name = "Trum Da Den",
+                            To = userAddressDTO.Email,
+                            Subject = "Apply email API grateway Brevo",
+                            Content = @"<h2>Checkout Complete</h2>
+                                        <p>Thanks for your order! Your order number is: @ViewBag.OrderCode</p>",
+                        };
+
+                        await _emailService.Send(emailInfo);
+
+                        HttpContext.Session.Remove(CommonConstant.CartSessionName);
+                    }
                 }
+                else
+                {
+                    ModelState.AddModelError("error", "Create order failed.");
+                }
+
+            }
+            else
+            {
+                ModelState.AddModelError("error", "Process cart failed.");
             }
 
             ViewBag.OrderCode = codeOrder;

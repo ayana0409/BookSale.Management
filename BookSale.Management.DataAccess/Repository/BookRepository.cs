@@ -24,7 +24,7 @@ namespace BookSale.Management.DataAccess.Repository
             parameters.Add("keyword", keyword, System.Data.DbType.String, System.Data.ParameterDirection.Input);
             parameters.Add("pageIndex", pageIndex, System.Data.DbType.Int32, System.Data.ParameterDirection.Input);
             parameters.Add("pageSize", pageSize, System.Data.DbType.Int32, System.Data.ParameterDirection.Input);
-            parameters.Add("totalRecords", 0, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            parameters.Add("totalRecords", dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.Output);
 
             var result = await _sQLQueryHandler.ExecuteStoreProdecureReturnListAsync<BookDTO>("GetBookByPagination", parameters);
 

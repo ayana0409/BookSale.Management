@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,9 @@ namespace BookSale.Managament.Domain.Entities
         public DateTime CreatedOn { get; set; }
         public double TotalAmount { get; set; } 
         public PaymentMethod PaymentMethod { get; set; }
-        [Required, StringLength(50)]
-        public string UserId { get; set; }
-        public short Status { get; set; }
+        public int AddressId { get; set; }
+        [ForeignKey(nameof(AddressId))]
+        public UserAddress UserAddress { get; set; }
+        public StatusProcessing Status { get; set; }
     }
 }

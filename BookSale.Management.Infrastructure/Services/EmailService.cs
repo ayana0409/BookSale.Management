@@ -30,7 +30,6 @@ namespace BookSale.Management.Infrastructure.Services
                 Configuration.Default.ApiKey.Add("api-key", _key);
             }
 
-
         }
 
         public async Task<bool> Send(EmailSetting emailSetting)

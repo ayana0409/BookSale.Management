@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
+using BookSale.Management.Application.DTOs.Genre;
+using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.Order;
 using BookSale.Management.DataAccess.Repository;
+using BookSale.Managament.Domain.Enums;
 
 namespace BookSale.Management.Application.Services
 {
@@ -15,6 +18,29 @@ namespace BookSale.Management.Application.Services
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<ResponseDatatable<object>> GetOrderByPagination(RequestDatatable request)
+        {
+            var (orders, totalRecords) = await _unitOfWork.OrderRepository.GetByPagination<OrderResponseDTO>(request.SkipItems, request.PageSize, request.Keyword is null ? "" : request.Keyword);
+
+
+            return new ResponseDatatable<object>
+            {
+                Draw = request.Draw,
+                RecordsTotal = totalRecords,
+                RecordsFiltered = totalRecords,
+                Data = orders.Select(x => new
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    CreatedOn = x.CreatedOn,
+                    FullName = x.FullName,
+                    TotalPrice = x.TotalPrice,
+                    Status = Enum.GetName(typeof(StatusProcessing), x.Status),
+                    PaymentMethod = Enum.GetName(typeof(PaymentMethod), x.PaymentMethod),
+                }).ToList()
+            };
         }
 
         public async Task<bool> Save(OrderRequestDTO orderDTO)
@@ -44,7 +70,9 @@ namespace BookSale.Management.Application.Services
 
                         await _unitOfWork.Table<OrderDetail>().AddAsync(orderDetail);
                     }
-                }
+
+                    await _unitOfWork.SaveChangeAsync();
+                };
 
                 await _unitOfWork.CommitTransaction();
             }
