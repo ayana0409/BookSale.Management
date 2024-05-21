@@ -127,22 +127,17 @@
     </li>
 
     <!-- Forms & Tables -->
-    <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Forms &amp; Tables</span></li>
+    <li class="menu-header fw-medium mt-4"><span class="menu-header-text">Report</span></li>
     <!-- Forms -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons mdi mdi-form-select"></i>
-            <div data-i18n="Form Elements">Form Elements</div>
+            <div data-i18n="Report">Report</div>
         </a>
         <ul class="menu-sub">
             <li class="menu-item">
-                <a href="forms-basic-inputs.html" class="menu-link">
-                    <div data-i18n="Basic Inputs">Basic Inputs</div>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="forms-input-groups.html" class="menu-link">
-                    <div data-i18n="Input groups">Input groups</div>
+                <a asp-controller="report" asp-action="index" class="menu-link">
+                    <div data-i18n="Order">Order</div>
                 </a>
             </li>
         </ul>

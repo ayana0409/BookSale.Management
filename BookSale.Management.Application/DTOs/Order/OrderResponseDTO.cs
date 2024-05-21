@@ -10,6 +10,6 @@ namespace BookSale.Management.Application.DTOs.Order
         public PaymentMethod PaymentMethod { get; set; }
         public StatusProcessing Status { get; set; }
         public string FullName { get; set; }
-        public double TotalPrice { get; set; }
+        public double TotalOrder { get; set; }
     }
 }

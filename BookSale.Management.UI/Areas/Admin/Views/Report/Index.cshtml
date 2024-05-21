@@ -1,0 +1,122 @@
+﻿@using BookSale.Management.Application.DTOs.Report;
+@model IEnumerable<ReportOrderResponseDTO>;
+@using BookSale.Managament.Domain.Enums;
+@using System.Globalization
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Share/_Layout.cshtml";
+    var filters = ViewBag.FilterData as ReportRequestDTO;
+}
+
+<div class="card mt-5">
+    <div class="row m-2">
+        <div class="col-md-3">
+            <h2>Filter</h2>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label for="fromDate">From</label>
+                    @{
+                        <input type="date" class="form-control" name="start" id="start-date" value="@filters.From">
+                    }
+                </div>
+                <div class="col-md-6">
+                    <label for="toDate">To</label>
+                    @{
+                        <input type="date" class="form-control" name="end" id="end-date" value="@filters.To">
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <select id="ddl-genre" class="form-select color-dropdown">
+                    <option value="0">Please select</option>
+                    @{
+                        var genres = ViewBag.Genres as IEnumerable<SelectListItem>;
+                        if (genres != null)
+                        {
+                            foreach (var genre in genres)
+                            {
+                                if (filters != null && filters.GenreId == Convert.ToInt32(genre.Value))
+                                {
+                                    <option value="@genre.Value" selected>@genre.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@genre.Value">@genre.Text</option>
+                                }
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="ddl-status" class="form-select color-dropdown">
+                    <option value="0">Please select</option>
+                    @{
+                        var statusItems = (StatusProcessing[])Enum.GetValues(typeof(StatusProcessing));
+                        @foreach (var status in statusItems)
+                        {
+                            if (filters != null && filters.Status == status)
+                            {
+                                <option value="@((int)status)" selected>@status</option>
+                            }
+                            else
+                            {
+                                <option value="@((int)status)">@status</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <button type="button" id="btn-submit" class="btn btn-info my-3">Submit</button>
+            <button type="button" id="btn-reset" class="btn my-3 btn-outline-dark" style="float: right;">Reset</button>
+        </div>
+        <div class="col-md-9">
+            <h2>Order List</h2>
+            <button type="button" id="btn-export" class="btn btn-primary my-3" style="float: right;">Export</button>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Code</th>
+                        <th>Customer</th>
+                        <th>Created On</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.Count() > 0)
+                        {
+                            foreach (ReportOrderResponseDTO order in Model)
+                            {
+                                <tr>
+                                    <td style="width: 150px;">@order.Code</td>
+                                    <td>@order.CustomerName</td>
+                                    <td style="width: 150px; text-align: center;">@order.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                    <td style="width: 50px; text-align: center;">@order.TotalQuantity</td>
+                                    <td style="width: 150px; text-align: center;">@order.TotalPrice.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                    <td style="width: 50px; text-align: center;">@(Enum.GetName(order.Status))</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6">No data to display</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/components/report.js"></script>
+}

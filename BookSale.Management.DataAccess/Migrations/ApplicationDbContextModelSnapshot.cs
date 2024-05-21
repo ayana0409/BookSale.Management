@@ -575,19 +575,19 @@ namespace BookSale.Management.DataAccess.Migrations
 
             modelBuilder.Entity("BookSale.Managament.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("BookSale.Managament.Domain.Entities.UserAddress", "UserAddress")
+                    b.HasOne("BookSale.Managament.Domain.Entities.UserAddress", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserAddress");
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("BookSale.Managament.Domain.Entities.OrderDetail", b =>
                 {
                     b.HasOne("BookSale.Managament.Domain.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("Details")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -660,6 +660,11 @@ namespace BookSale.Management.DataAccess.Migrations
             modelBuilder.Entity("BookSale.Managament.Domain.Entities.Genre", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BookSale.Managament.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

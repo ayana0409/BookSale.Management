@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
-using BookSale.Management.Application.DTOs.Genre;
 using BookSale.Management.Application.DTOs;
 using BookSale.Management.Application.DTOs.Order;
 using BookSale.Management.DataAccess.Repository;
 using BookSale.Managament.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
+using BookSale.Management.Application.DTOs.Report;
 
 namespace BookSale.Management.Application.Services
 {
@@ -24,7 +25,6 @@ namespace BookSale.Management.Application.Services
         {
             var (orders, totalRecords) = await _unitOfWork.OrderRepository.GetByPagination<OrderResponseDTO>(request.SkipItems, request.PageSize, request.Keyword is null ? "" : request.Keyword);
 
-
             return new ResponseDatatable<object>
             {
                 Draw = request.Draw,
@@ -36,7 +36,7 @@ namespace BookSale.Management.Application.Services
                     Code = x.Code,
                     CreatedOn = x.CreatedOn,
                     FullName = x.FullName,
-                    TotalPrice = x.TotalPrice,
+                    TotalPrice = x.TotalOrder,
                     Status = Enum.GetName(typeof(StatusProcessing), x.Status),
                     PaymentMethod = Enum.GetName(typeof(PaymentMethod), x.PaymentMethod),
                 }).ToList()
@@ -84,6 +84,48 @@ namespace BookSale.Management.Application.Services
             }
 
             return true;
+        }
+
+        public async Task<ReportDTO> GetReportByIdAsync(string id)
+        {
+            var order = await _unitOfWork.Table<Order>()
+                .Where(x => x.Id == id)
+                .Include(x => x.Address)
+                .Include(x => x.Details)
+                .SingleAsync();
+
+            var address = _mapper.Map<OrderAddressDTO>(order.Address);
+
+            var details = order.Details.Join(_unitOfWork.Table<Book>(), 
+                                            x => x.ProductId, 
+                                            y => y.Id, 
+                                            (details, book) => new OrderDetailDTO
+                                            {
+                                                UnitPrice = details.UnitPrice,
+                                                ProductName = book.Title,
+                                                Quantity = details.Quantity
+                                            }).ToList();
+
+            return new ReportDTO
+            {
+                code = order.Code,
+                Address = address,
+                CreateOn = order.CreatedOn,
+                Details = details
+            };
+        }
+
+        public async Task<IEnumerable<ReportOrderResponseDTO>> GetReportOrderAsync(ReportRequestDTO request)
+        {
+            //DateTime start = DateTime.ParseExact(request.From, "dd/MM/yyyy", new CultureInfo("vi-VN"));
+            //DateTime end = DateTime.ParseExact(request.To, "dd/MM/yyyy", new CultureInfo("vi-VN"));
+
+            var result = await _unitOfWork.OrderRepository.GetReportByExcel<ReportOrderResponseDTO>(request.From,
+                                                                                                    request.To, 
+                                                                                                    request.GenreId, 
+                                                                                                    (int)request.Status);
+
+            return result;
         }
     }
 }

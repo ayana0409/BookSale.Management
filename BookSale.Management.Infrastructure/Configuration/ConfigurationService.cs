@@ -6,6 +6,8 @@ using BookSale.Management.DataAccess.DataAccess;
 using BookSale.Management.DataAccess.Repository;
 using BookSale.Management.Doman;
 using BookSale.Management.Infrastructure.Services;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +54,11 @@ namespace BookSale.Management.DataAccess.Configuration
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ICommonService, CommonService>();
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddTransient<IPDFService, PDFService>();
+            services.AddTransient<IExcelHandler, ExcelHandler>();
+
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
@@ -60,6 +67,8 @@ namespace BookSale.Management.DataAccess.Configuration
             services.AddTransient<IUserAddressService, UserAddressService>();
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IOrderService, OrderService>();
+
+
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

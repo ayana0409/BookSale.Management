@@ -90,6 +90,13 @@ namespace BookSale.Management.UI.Controllers
 
                 var cartResult = await _cartService.Save(cart);
 
+                double total = 0;
+
+                foreach(BookCartDTO book in books)
+                {
+                    total += book.Price * book.Quantity;
+                }
+
                 if (cartResult)
                 {
                     var order = new OrderRequestDTO
@@ -99,7 +106,7 @@ namespace BookSale.Management.UI.Controllers
                         Code = codeOrder,
                         PaymentMethod = userAddressDTO.PaymentMethod,
                         Status = StatusProcessing.New,
-                        TotalAmount = 0,
+                        TotalAmount = total,
                         UserId = userId,
                         AddressId = addressId,
                         Id = userAddressDTO.PaymentMethod == PaymentMethod.Paypal ? userAddressDTO.OrderId : Guid.NewGuid().ToString(),

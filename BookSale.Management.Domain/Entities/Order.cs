@@ -22,7 +22,9 @@ namespace BookSale.Managament.Domain.Entities
         public PaymentMethod PaymentMethod { get; set; }
         public int AddressId { get; set; }
         [ForeignKey(nameof(AddressId))]
-        public UserAddress UserAddress { get; set; }
+        public UserAddress Address { get; set; }
         public StatusProcessing Status { get; set; }
+
+        public ICollection<OrderDetail> Details { get; set; }
     }
 }

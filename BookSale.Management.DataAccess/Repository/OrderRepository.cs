@@ -45,5 +45,19 @@ namespace BookSale.Management.DataAccess.Repository
 
             return (result, totalRecord);
         }
+
+        public async Task<IEnumerable<T>> GetReportByExcel<T>(string from, string to, int genreId, int status)
+        {
+            DynamicParameters parameters = new();
+
+            parameters.Add("from", from, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+            parameters.Add("to", to, System.Data.DbType.String, System.Data.ParameterDirection.Input);
+            parameters.Add("genreId", genreId, System.Data.DbType.Int32, System.Data.ParameterDirection.Input);
+            parameters.Add("status", status, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.Input);
+
+            var result = await _sQLQueryHandler.ExecuteStoreProdecureReturnListAsync<T>("spGetReportOrderByExcel", parameters);
+
+            return result;
+        }
     }
 }

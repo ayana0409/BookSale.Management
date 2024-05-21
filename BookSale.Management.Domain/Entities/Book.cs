@@ -18,7 +18,7 @@ namespace BookSale.Managament.Domain.Entities
         public string? Publisher { get; set; }
         [Required]
         public int Available { get; set; }
-        public Double Price { get; set; }
+        public double Price { get; set; }
         public DateTime CreatedOn { get; set; }
         [Required]
         [StringLength(500)]

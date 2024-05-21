@@ -5,6 +5,7 @@ using BookSale.Management.Application.DTOs.Books;
 using BookSale.Management.Application.DTOs.Cart;
 using BookSale.Management.Application.DTOs.Genre;
 using BookSale.Management.Application.DTOs.Order;
+using BookSale.Management.Application.DTOs.Report;
 using BookSale.Management.Application.DTOs.User;
 using BookSale.Management.Application.DTOs.ViewModal;
 
@@ -30,6 +31,12 @@ namespace BookSale.Management.Application.Configuration
                 .ReverseMap();
             CreateMap<OrderRequestDTO, Order>()
                 .ReverseMap();
+
+            CreateMap<UserAddress, OrderAddressDTO>()
+                .ForMember(dest => dest.Phone, source => source.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.Name, source => source.MapFrom(src => src.FullName))
+                .ReverseMap();
+
         }
     }
 }
