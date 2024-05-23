@@ -7,6 +7,7 @@ using BookSale.Management.DataAccess.Repository;
 using BookSale.Managament.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using BookSale.Management.Application.DTOs.Report;
+using BookSale.Management.Application.DTOs.Char;
 
 namespace BookSale.Management.Application.Services
 {
@@ -117,13 +118,17 @@ namespace BookSale.Management.Application.Services
 
         public async Task<IEnumerable<ReportOrderResponseDTO>> GetReportOrderAsync(ReportRequestDTO request)
         {
-            //DateTime start = DateTime.ParseExact(request.From, "dd/MM/yyyy", new CultureInfo("vi-VN"));
-            //DateTime end = DateTime.ParseExact(request.To, "dd/MM/yyyy", new CultureInfo("vi-VN"));
-
             var result = await _unitOfWork.OrderRepository.GetReportByExcel<ReportOrderResponseDTO>(request.From,
                                                                                                     request.To, 
                                                                                                     request.GenreId, 
                                                                                                     (int)request.Status);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<OrderChartByGenreDTO>> GetCharDataByGenreAsync(int genreId)
+        {
+            var result = await _unitOfWork.OrderRepository.GetChartDataByGenre<OrderChartByGenreDTO>(genreId);
 
             return result;
         }

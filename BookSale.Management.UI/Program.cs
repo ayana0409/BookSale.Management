@@ -63,7 +63,7 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "AdminRouting",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Authentication}/{action=Login}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

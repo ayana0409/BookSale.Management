@@ -15,7 +15,7 @@ namespace BookSale.Management.DataAccess.Dapper
             _connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         }
 
-        public async Task ExecuteNonReturn(string query, DynamicParameters parameters, IDbTransaction transaction = null)
+        public async Task ExecuteNonReturn(string query, DynamicParameters parameters = null, IDbTransaction transaction = null)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -24,7 +24,7 @@ namespace BookSale.Management.DataAccess.Dapper
 
         }
 
-        public async Task<T?> ExecuteReturnSingleValueScalarAsync<T>(string query, DynamicParameters parameters, IDbTransaction transaction = null)
+        public async Task<T?> ExecuteReturnSingleValueScalarAsync<T>(string query, DynamicParameters parameters = null, IDbTransaction transaction = null)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -33,7 +33,7 @@ namespace BookSale.Management.DataAccess.Dapper
 
         }
 
-        public async Task<T?> ExecuteReturnSingleRowScalarAsync<T>(string query, DynamicParameters parameters, IDbTransaction transaction = null)
+        public async Task<T?> ExecuteReturnSingleRowScalarAsync<T>(string query, DynamicParameters parameters = null, IDbTransaction transaction = null)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -43,7 +43,7 @@ namespace BookSale.Management.DataAccess.Dapper
         }
 
 
-        public async Task<IEnumerable<T>> ExecuteStoreProdecureReturnListAsync<T>(string storeName, DynamicParameters parameters, IDbTransaction transaction = null)
+        public async Task<IEnumerable<T>> ExecuteStoreProdecureReturnListAsync<T>(string storeName, DynamicParameters parameters = null, IDbTransaction transaction = null)
         {
             using (var connection = new SqlConnection(_connectionString))
             {

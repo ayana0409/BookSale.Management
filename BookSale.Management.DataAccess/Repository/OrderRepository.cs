@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace BookSale.Management.DataAccess.Repository
 {
@@ -59,5 +60,18 @@ namespace BookSale.Management.DataAccess.Repository
 
             return result;
         }
+
+        public async Task<IEnumerable<T>> GetChartDataByGenre<T>(int genreId)
+        {
+            DynamicParameters parameters = new();
+
+            parameters.Add("genreId", genreId, System.Data.DbType.Int32, System.Data.ParameterDirection.Input);
+
+            var result = await _sQLQueryHandler.ExecuteStoreProdecureReturnListAsync<T>("spGetChartOrderByGenre", parameters);
+
+            return result;
+        }
+
+        
     }
 }
