@@ -4,18 +4,16 @@
 }
 <!DOCTYPE html>
 
-<html
-  lang="en"
-  class="light-style layout-wide customizer-hide"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="../assets/"
-  data-template="vertical-menu-template-free">
-  <head>
+<html lang="en"
+      class="light-style layout-wide customizer-hide"
+      dir="ltr"
+      data-theme="theme-default"
+      data-assets-path="../assets/"
+      data-template="vertical-menu-template-free">
+<head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Login Basic - Pages | Materio - Bootstrap Material Design Admin Template</title>
 
@@ -27,94 +25,91 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
-      rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
+          rel="stylesheet" />
     <link href="~/admin/assets/vendor/fonts/materialdesignicons.css" rel="stylesheet" />
     <link href="~/admin/assets/vendor/libs/node-waves/node-waves.css" rel="stylesheet" />
     <link href="~/admin/assets/vendor/css/core.css" rel="stylesheet" class="template-customizer-core-css" />
-    <link href="~/admin/assets/vendor/css/theme-default.css" rel="stylesheet" class="template-customizer-theme-css"  />
+    <link href="~/admin/assets/vendor/css/theme-default.css" rel="stylesheet" class="template-customizer-theme-css" />
     <link href="~/admin/assets/css/demo.css" rel="stylesheet" />
     <link href="~/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
     <link href="~/admin/assets/vendor/css/pages/page-auth.css" rel="stylesheet" />
 
     <script src="~/admin/assets/vendor/js/helpers.js"></script>
     <script src="~/admin/assets/js/config.js"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <!-- Content -->
     <div class="position-relative">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner py-4">
-          <!-- Login -->
-          <div class="card p-2">
-            <!-- Logo -->
-            <div class="app-brand justify-content-center mt-5">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner py-4">
+                <!-- Login -->
+                <div class="card p-2">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center mt-5">
                         <div class="app-brand-link gap-2" style="justify-content: center;">
                             <img style="width: 40%;" src="~/images/labati-logo.png" />
-              </div>
-            </div>
-            <!-- /Logo -->
-
-            <div class="card-body mt-2">
-              <h4 class="mb-2">Welcome to Libati! 👋</h4>
-              <p class="mb-4">Please sign-in</p>
-              <span class="text-danger">@Html.Raw(ViewBag.Error)</span>
-              <form id="loginform" class="mb-3" 
-                asp-controller="Authentication" asp-action="Login"
-                asp-antiforgery="true" method="post">
-                <div class="form-floating form-floating-outline mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    asp-for="UserName"
-                    placeholder="Enter your email or username"
-                    autofocus />
-                  <label for="email">Email or Username</label>
-                <span class="text-danger" asp-validation-for="UserName"></span>
-                </div>
-                <input type="hidden" value="@ViewBag.ReturnUrl" asp-for="ReturnUrl"/>
-                <input type="hidden" asp-for="HasRemember"/>
-                <div class="mb-3">
-                  <div class="form-password-toggle">
-                    <div class="input-group input-group-merge">
-                      <div class="form-floating form-floating-outline">
-                        <input
-                          type="password"
-                          class="form-control"
-                          asp-for="Password"
-                          placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                          aria-describedby="password" />
-                        <label for="password">Password</label>
-                      </div>
+                        </div>
                     </div>
-                    <span class="text-danger" asp-validation-for="Password"></span>
-                  </div>  
-                </div>
-                <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" asp-controller="Login" asp-action="" type="submit">Sign in</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="my-3">
-              <button class="btn btn-danger" type="button"><span class="mdi mdi-google mx-1"></span> Google</button>
-              <button class="btn btn-info" type="button"><span class="mdi mdi-facebook mx-1"></span> Facebook</button>
-          </div>
-      </div>
-    </div>
+                    <!-- /Logo -->
 
-    <script src="~/admin/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="~/admin/assets/vendor/libs/popper/popper.js"></script>
-    <script src="~/admin/assets/vendor/js/bootstrap.js"></script>
-    <script src="~/admin/assets/vendor/libs/node-waves/node-waves.js"></script>
-    <script src="~/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="~/admin/assets/vendor/js/menu.js"></script>
-    <script src="~/admin/assets/js/main.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-  </body>
+                    <div class="card-body mt-2">
+                        <h4 class="mb-2">Welcome to Libati! 👋</h4>
+                        <p class="mb-4">Please sign-in</p>
+                        <span class="text-danger">@Html.Raw(ViewBag.Error)</span>
+                        <form id="loginform" class="mb-3"
+                              asp-controller="Authentication" asp-action="Login"
+                              asp-antiforgery="true" method="post">
+                            <div class="form-floating form-floating-outline mb-3">
+                                <input type="text"
+                                       class="form-control"
+                                       asp-for="UserName"
+                                       placeholder="Enter your email or username"
+                                       autofocus />
+                                <label for="email">Email or Username</label>
+                                <span class="text-danger" asp-validation-for="UserName"></span>
+                            </div>
+                            <input type="hidden" value="@ViewBag.ReturnUrl" asp-for="ReturnUrl" />
+                            <input type="hidden" asp-for="HasRemember" />
+                            <div class="mb-3">
+                                <div class="form-password-toggle">
+                                    <div class="input-group input-group-merge">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="password"
+                                                   class="form-control"
+                                                   asp-for="Password"
+                                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                                   aria-describedby="password" />
+                                            <label for="password">Password</label>
+                                        </div>
+                                    </div>
+                                    <span class="text-danger" asp-validation-for="Password"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-grid w-100" asp-controller="Login" asp-action="" type="submit">Sign in</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <a href="/login/external?provider=Google" class="btn btn-danger"><span class="mdi mdi-google mx-1"></span> Google</a>
+                    <a href="/login/external?provider=Facebook" class="btn btn-info text-white"><span class="mdi mdi-facebook mx-1"></span> Facebook</a>
+                </div>
+            </div>
+        </div>
+
+        <script src="~/admin/assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="~/admin/assets/vendor/libs/popper/popper.js"></script>
+        <script src="~/admin/assets/vendor/js/bootstrap.js"></script>
+        <script src="~/admin/assets/vendor/libs/node-waves/node-waves.js"></script>
+        <script src="~/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="~/admin/assets/vendor/js/menu.js"></script>
+        <script src="~/admin/assets/js/main.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
 </html>
 
 

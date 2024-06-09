@@ -26,6 +26,7 @@ namespace BookSale.Management.DataAccess.Configuration
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                         .AddEntityFrameworkStores<ApplicationDbContext>()
+                        .AddSignInManager<SignInManager<ApplicationUser>>()
                         .AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(option =>
@@ -70,10 +71,27 @@ namespace BookSale.Management.DataAccess.Configuration
 
 
         }
-
         public static void AddAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        }
+
+        public static void AddAuthorizationGlobal(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    IConfigurationSection googleAuthNSection = configuration.GetSection("Authentication:Google");
+
+                    googleOptions.ClientId = googleAuthNSection["ClientId"];
+                    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                .AddFacebook(options =>
+                {
+                    IConfigurationSection facebookAuthNSection = configuration.GetSection("Authentication:Facebook");
+                    options.AppId = facebookAuthNSection["AppId"];
+                    options.AppSecret = facebookAuthNSection["AppSecret"];
+                });
         }
     }
 }

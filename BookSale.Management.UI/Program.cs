@@ -1,6 +1,8 @@
-﻿using BookSale.Management.DataAccess;
+using BookSale.Management.DataAccess;
 using BookSale.Management.DataAccess.Configuration;
 using BookSale.Management.UI.Ultility;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddDependencyInjection();
 
 builder.Services.AddAutoMapper();
 
+
 builder.Services.AddControllersWithViews(options =>
 {
     options.Conventions.Add(new SiteAreaConvention());
@@ -22,6 +25,8 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthorizationGlobal(builder.Configuration);
 
 builder.Services.AddSession(options =>
 {
