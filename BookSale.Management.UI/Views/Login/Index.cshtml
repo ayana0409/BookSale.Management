@@ -1,4 +1,4 @@
-﻿@model BookSale.Management.UI.Models.LoginModel
+﻿@model BookSale.Management.UI.Models.LoginSiteModel
 @{
     Layout = null;
 }
@@ -36,7 +36,8 @@
     <link href="~/admin/assets/vendor/css/pages/page-auth.css" rel="stylesheet" />
 
     <script src="~/admin/assets/vendor/js/helpers.js"></script>
-    <script src="~/admin/assets/js/config.js"></script>
+    <script src="~/admin/assets/js/config.js"></script> 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -71,6 +72,7 @@
                                 <span class="text-danger" asp-validation-for="UserName"></span>
                             </div>
                             <input type="hidden" value="@ViewBag.ReturnUrl" asp-for="ReturnUrl" />
+                            <input type="hidden" asp-for="Captcha" />
                             <input type="hidden" asp-for="HasRemember" />
                             <div class="mb-3">
                                 <div class="form-password-toggle">
@@ -87,6 +89,11 @@
                                     <span class="text-danger" asp-validation-for="Password"></span>
                                 </div>
                             </div>
+                            
+                            <div class="text-danger" asp-validation-summary="All"></div>
+
+                            <div id="recapcha" class="mb-3"></div>
+
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" asp-controller="Login" asp-action="" type="submit">Sign in</button>
                             </div>
@@ -109,6 +116,19 @@
         <script src="~/admin/assets/js/main.js"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                async defer>
+        </script>
+        <script type="text/javascript">
+            var onloadCallback = function () {
+                grecaptcha.render('recapcha', {
+                    'sitekey': '6LdoevUpAAAAAM4MZURvvkduHo5PcXobqTq6avjc',
+                    'callback': function (response) {
+                        $('#Captcha').val(response);
+                    }
+                });
+            };
+        </script>
 </body>
 </html>
 

@@ -36,6 +36,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Moment.js" Version="2.30.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Owl.reCAPTCHA" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

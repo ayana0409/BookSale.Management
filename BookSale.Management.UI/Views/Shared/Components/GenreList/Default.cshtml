@@ -1,0 +1,12 @@
+﻿@model IEnumerable<BookSale.Management.Application.DTOs.Genre.GenreSiteDTO>;
+
+@{
+    foreach (var genre in Model)
+    {
+        <li class="menu-item">
+            <a href="/shop?g=@genre.Id" class="menu-link">
+                <div>@genre.Name (@genre.TotalBooks)</div>
+            </a>
+        </li>
+    }
+}

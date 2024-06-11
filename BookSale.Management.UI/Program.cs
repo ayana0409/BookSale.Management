@@ -3,6 +3,8 @@ using BookSale.Management.DataAccess.Configuration;
 using BookSale.Management.UI.Ultility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Owl.reCAPTCHA;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddDependencyInjection();
 
 builder.Services.AddAutoMapper();
 
+builder.Services.AddSerilog();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -33,7 +36,15 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromHours(1);
 });
 
+builder.Services.AddreCAPTCHAV2(x =>
+{
+    x.SiteKey = "6LdoevUpAAAAAM4MZURvvkduHo5PcXobqTq6avjc";
+    x.SiteSecret = "6LdoevUpAAAAAMxa3_dng-zGLYTsNH3XCUCHvtDG";
+});
+
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 app.AutoMigration();
 //app.AutoMigration().GetAwaiter().GetResult();
@@ -47,10 +58,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
     builderRazor.AddRazorRuntimeCompilation();
+    app.UseExceptionHandler("/Error");
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

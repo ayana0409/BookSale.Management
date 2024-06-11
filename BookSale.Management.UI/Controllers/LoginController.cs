@@ -12,6 +12,8 @@ using System.Security;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text;
+using Owl.reCAPTCHA;
+using Owl.reCAPTCHA.v2;
 
 namespace BookSale.Management.UI.Controllers
 {
@@ -21,16 +23,19 @@ namespace BookSale.Management.UI.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IreCAPTCHASiteVerifyV2 _siteVerify;
 
         public LoginController(IAuthenticationService authenticationService,
                                 SignInManager<ApplicationUser> signInManager,
                                 UserManager<ApplicationUser> userManager,
-                                IUserStore<ApplicationUser> userStore)
+                                IUserStore<ApplicationUser> userStore,
+                                IreCAPTCHASiteVerifyV2 siteVerify)
         {
             _authenticationService = authenticationService;
             _signInManager = signInManager;
             _userManager = userManager;
             _userStore = userStore;
+            _siteVerify = siteVerify;
         }
 
         public IActionResult Index(string returnUrl)
@@ -40,8 +45,26 @@ namespace BookSale.Management.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(LoginModel loginModel)
+        public async Task<IActionResult> Index(LoginSiteModel loginModel)
         {
+            if (String.IsNullOrEmpty(loginModel.Captcha))
+            {
+                ModelState.AddModelError("error", "Invalid captcha");
+                return View(loginModel);
+            }
+
+            var response = await _siteVerify.Verify(new reCAPTCHASiteVerifyRequest
+            {
+                Response = loginModel.Captcha,
+                RemoteIp = HttpContext.Connection.RemoteIpAddress.ToString()
+            });
+
+            if (!response.Success)
+            {
+                ModelState.AddModelError("error", "Invalid captcha");
+                return View(loginModel);
+            }
+
             var result = await _authenticationService.CheckLogin(loginModel.UserName, loginModel.Password, false);
 
             if (result.Status)
@@ -64,10 +87,8 @@ namespace BookSale.Management.UI.Controllers
             return View(loginModel);
         }
 
-
         public IActionResult External(string provider, string returnUrl = null)
         {
-            // Request a redirect to the external login provider.
             var redirectUrl = $"/login/callbackexternal?handler=Callback&returnUrl={returnUrl}&remoteError=";
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
@@ -78,17 +99,14 @@ namespace BookSale.Management.UI.Controllers
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
-                //ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                //ErrorMessage = "Error loading external login information.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
-            // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
@@ -124,7 +142,6 @@ namespace BookSale.Management.UI.Controllers
 
             if (info == null)
             {
-                //ErrorMessage = "Error loading external login information during confirmation.";
                 return RedirectToPage("./Login", new { ReturnUrl = externalLoginModel.ReturnUrl });
             }
 
@@ -153,7 +170,7 @@ namespace BookSale.Management.UI.Controllers
             }
 
             return RedirectToAction("", "home");
-       }
+        }
 
         private ApplicationUser CreateUser()
         {

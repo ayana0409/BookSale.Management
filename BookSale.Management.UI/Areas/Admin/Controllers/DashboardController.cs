@@ -15,6 +15,8 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [Breadscumb("Dashboard")]
         public async Task<IActionResult> Index()
         {
+            throw new NotImplementedException();
+
             ViewBag.Genres = await _genreService.GetGenreForDropdownList();
 
             return View();

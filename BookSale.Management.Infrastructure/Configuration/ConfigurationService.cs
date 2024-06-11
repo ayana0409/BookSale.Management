@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Microsoft.AspNetCore.Builder;
+using Serilog.Events;
 
 namespace BookSale.Management.DataAccess.Configuration
 {
@@ -92,6 +95,23 @@ namespace BookSale.Management.DataAccess.Configuration
                     options.AppId = facebookAuthNSection["AppId"];
                     options.AppSecret = facebookAuthNSection["AppSecret"];
                 });
+        }
+
+        public static void AddSerilog(this WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                                .MinimumLevel.Information()
+                                .Enrich.FromLogContext()
+                                .WriteTo.Console()
+                                .WriteTo.File(
+                                   System.IO.Path.Combine("LogFiles", "log.txt"),
+                                   rollingInterval: RollingInterval.Day,
+                                   fileSizeLimitBytes: 10 * 1024 * 1024, //10Mb
+                                   retainedFileCountLimit: 2
+                                )
+                                .CreateLogger();
+
+            builder.Host.UseSerilog();
         }
     }
 }
