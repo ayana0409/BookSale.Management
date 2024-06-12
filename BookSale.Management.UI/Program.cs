@@ -1,8 +1,6 @@
 using BookSale.Management.DataAccess;
 using BookSale.Management.DataAccess.Configuration;
 using BookSale.Management.UI.Ultility;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Owl.reCAPTCHA;
 using Serilog;
 

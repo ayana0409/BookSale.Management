@@ -51,7 +51,7 @@ namespace BookSale.Management.UI.Controllers
 
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                addressDTOs = await _userAddressService.GetUserAddressForSite(userId);
+                addressDTOs = await _userAddressService.GetUserAddressForSiteAsync(userId);
                 ViewBag.AddressDTOs = addressDTOs;
             }
             else 
@@ -88,7 +88,7 @@ namespace BookSale.Management.UI.Controllers
                     Books = books.ToList()
                 };
 
-                var cartResult = await _cartService.Save(cart);
+                var cartResult = await _cartService.SaveAsync(cart);
 
                 double total = 0;
 
@@ -112,7 +112,7 @@ namespace BookSale.Management.UI.Controllers
                         Id = userAddressDTO.PaymentMethod == PaymentMethod.Paypal ? userAddressDTO.OrderId : Guid.NewGuid().ToString(),
                     };
 
-                    var orderResult = await _orderService.Save(order);
+                    var orderResult = await _orderService.SaveAsync(order);
 
 
                     if (orderResult)

@@ -1,17 +1,10 @@
 ﻿using BookSale.Managament.Domain.Entities;
 using BookSale.Management.Application.Abtracts;
 using BookSale.Management.Application.DTOs.ViewModal;
-using BookSale.Management.DataAccess.Migrations;
 using BookSale.Management.UI.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Security;
 using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Text;
 using Owl.reCAPTCHA;
 using Owl.reCAPTCHA.v2;
 

@@ -4,11 +4,11 @@ namespace BookSale.Managament.Domain.Abtract
 {
     public interface IBookRepository
     {
-        Task<IEnumerable<Book?>> GetBookByListCode(string[] codes);
-        Task<(IEnumerable<T>, int)> GetBookByPanigation<T>(int pageIndex, int pageSize, string? keyword);
-        Task<(IEnumerable<Book>, int)> GetBookForSite(int genreId, int pageIndex, int pageSize = 10);
-        Task<Book?> GetByCode(string code);
-        Task<Book?> GetById(int id);
-        Task<bool> Save(Book book);
+        Task<IEnumerable<Book?>> GetBookByListCodeAsync(string[] codes);
+        Task<(IEnumerable<T>, int)> GetBookByPanigationAsync<T>(int pageIndex, int pageSize, string? keyword);
+        Task<(IEnumerable<Book>, int)> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 10);
+        Task<Book?> GetByCodeAsync(string code);
+        Task<Book?> GetByIdAsync(int id);
+        Task<bool> SaveAsync(Book book);
     }
 }

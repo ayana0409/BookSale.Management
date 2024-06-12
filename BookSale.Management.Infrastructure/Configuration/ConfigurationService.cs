@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Microsoft.AspNetCore.Builder;
-using Serilog.Events;
 
 namespace BookSale.Management.DataAccess.Configuration
 {
@@ -46,8 +45,6 @@ namespace BookSale.Management.DataAccess.Configuration
                 option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 option.Lockout.MaxFailedAccessAttempts = 3;
             });
-
-
         }
 
         public static void AddDependencyInjection(this IServiceCollection services)

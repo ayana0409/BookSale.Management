@@ -18,18 +18,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/admin/assets/vendor/fonts/materialdesignicons.css" rel="stylesheet" />
-    <link href="~/admin/assets/vendor/libs/node-waves/node-waves.css" rel="stylesheet" />
-    <link href="~/admin/assets/css/demo.css" rel="stylesheet" />
-    <link href="~/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
-    <link href="~/admin/assets/vendor/css/core.css" rel="stylesheet" class="template-customizer-core-css" />
-    <link href="~/admin/assets/vendor/css/theme-default.css" rel="stylesheet" />
-    <link href="~/js/toaster/jquery.toast.min.css" rel="stylesheet" />
-    <link href="~/admin/assets/vendor/fonts/remixicon.css" rel="stylesheet" />
+
+    <link href="~/clientbundle/layout.admin.css" rel="stylesheet" />
+
     <script src="~/admin/assets/vendor/js/helpers.js"></script>
     <script src="~/admin/assets/js/config.js"></script>
-    <!-- Bao gồm CSS của jQuery UI -->
   </head>
 
   <body>
@@ -62,19 +55,9 @@
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
-
     <script src="~/admin/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="~/admin/assets/vendor/libs/popper/popper.js"></script>
-    <script src="~/admin/assets/vendor/js/bootstrap.js"></script>
-    <script src="~/js/toaster/jquery.toast.min.js"></script>
-    <script src="~/js/jquery.blockui.js"></script>
-    <script src="~/admin/assets/vendor/libs/node-waves/node-waves.js"></script>
-    <script src="~/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="~/admin/assets/vendor/js/menu.js"></script>
-    <script src="~/admin/assets/js/main.js"></script>
-    <script src="~/js/common.js"></script>
-    <script src="~/lib/moment.js"></script>
-    <!-- Place this tag in your head or just before your close body tag. -->
+    <script src="~/clientbundle/layout.admin.js"></script>
+
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
   </body>

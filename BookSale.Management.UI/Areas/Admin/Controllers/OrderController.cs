@@ -23,7 +23,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetByPagination(RequestDatatable requestDatatable)
         {
-            var data = await _orderService.GetOrderByPagination(requestDatatable);
+            var data = await _orderService.GetOrderByPaginationAsync(requestDatatable);
 
             return Json(data);
         }

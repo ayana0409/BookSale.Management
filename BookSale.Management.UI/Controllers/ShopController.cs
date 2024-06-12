@@ -19,7 +19,7 @@ namespace BookSale.Management.UI.Controllers
         }
         public async Task<IActionResult> Index(int g = 0, int idx = 1)
         {
-            var genres = _genreService.GetGenreListForSite();
+            var genres = _genreService.GetGenreListForSiteAsync();
 
             ViewBag.Genres = genres;
             ViewBag.CurrentGenre = g;

@@ -13,16 +13,19 @@ namespace BookSale.Management.DataAccess.Repository
         }
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null)
         {
-            if (expression == null)
-                return await _applicationDbContext.Set<T>().ToListAsync();
+            IQueryable<T> query = _applicationDbContext.Set<T>();
 
-            return await _applicationDbContext.Set<T>().Where(expression).ToListAsync();
+            if (expression == null)
+                return await query.AsNoTracking().ToListAsync();
+
+            return await query.AsNoTracking().Where(expression).ToListAsync();
         }
         public async Task<T?> GetSigleAsync(Expression<Func<T, bool>> expression)
         {
-            return await _applicationDbContext.Set<T>().FirstOrDefaultAsync(expression);
+            return await _applicationDbContext.Set<T>().AsNoTracking()
+                .FirstOrDefaultAsync(expression);
         }
-        public async Task Create(T entity)
+        public async Task CreateAsync(T entity)
         {
             await _applicationDbContext.Set<T>().AddAsync(entity);
         }
@@ -36,11 +39,6 @@ namespace BookSale.Management.DataAccess.Repository
         {
             _applicationDbContext.Set<T>().Attach(entity);
             _applicationDbContext.Entry(entity).State = EntityState.Deleted;
-        }
-
-        public async Task SaveChance()
-        {
-            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }

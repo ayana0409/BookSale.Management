@@ -26,14 +26,14 @@ namespace BookSale.Management.Application.Services
             _imageService = imageService;
         }
 
-        public async Task<ResponseDatatable<BookDTO>> GetBookByPagination(RequestDatatable request)
+        public async Task<ResponseDatatable<BookDTO>> GetBookByPaginationAsync(RequestDatatable request)
         {
             int totalRecord = 0;
             IEnumerable<BookDTO> books;
             Func<BookDTO, object>? orderBy = null;
 
             (books, totalRecord) = await _unitOfWork.BookRepository
-                                .GetBookByPanigation<BookDTO>(request.SkipItems, request.PageSize, request.Keyword);
+                                .GetBookByPanigationAsync<BookDTO>(request.SkipItems, request.PageSize, request.Keyword);
 
             switch (request.OrderColunm)
             {
@@ -85,9 +85,9 @@ namespace BookSale.Management.Application.Services
                 Data = books
             };
         }
-        public async Task<BookViewModal> GetById(int id)
+        public async Task<BookViewModal> GetByIdAsync(int id)
         {
-            var book = await _unitOfWork.BookRepository.GetById(id);
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(id);
 
             return _mapper.Map<BookViewModal>(book);
         }
@@ -103,11 +103,11 @@ namespace BookSale.Management.Application.Services
             }
 
             book.CreatedOn = DateTime.Now;
-            var result = await _unitOfWork.BookRepository.Save(book);
+            var result = await _unitOfWork.BookRepository.SaveAsync(book);
 
             await _unitOfWork.SaveChangeAsync();
 
-            var exisBook = await _unitOfWork.BookRepository.GetByCode(bookVM.Code);
+            var exisBook = await _unitOfWork.BookRepository.GetByCodeAsync(bookVM.Code);
 
             if (result && bookVM.Image is not null && exisBook is not null)
             {
@@ -133,7 +133,7 @@ namespace BookSale.Management.Application.Services
             while (true)
             {
                 code = _commonService.GenerateRandomCode(number);
-                var bookCode = await _unitOfWork.BookRepository.GetByCode(code);
+                var bookCode = await _unitOfWork.BookRepository.GetByCodeAsync(code);
 
                 if (bookCode is null)
                     break;
@@ -144,13 +144,13 @@ namespace BookSale.Management.Application.Services
 
         public async Task<ResponseModel> DeleteAsync(int id)
         {
-            Book? book = await _unitOfWork.BookRepository.GetById(id);
+            Book? book = await _unitOfWork.BookRepository.GetByIdAsync(id);
             var result = false;
 
             if (book is not null)
             {
                 book.IsActive = false;
-                result = await _unitOfWork.BookRepository.Save(book);
+                result = await _unitOfWork.BookRepository.SaveAsync(book);
                 await _unitOfWork.SaveChangeAsync();
             }
 
@@ -167,7 +167,7 @@ namespace BookSale.Management.Application.Services
             int totalRecord;
             IEnumerable<Book> books;
 
-            (books, totalRecord) = await _unitOfWork.BookRepository.GetBookForSite(genreId, pageIndex, pageSize);
+            (books, totalRecord) = await _unitOfWork.BookRepository.GetBookForSiteAsync(genreId, pageIndex, pageSize);
 
             var bookDTOs = _mapper.Map<IEnumerable<BookDTO>>(books);
 
@@ -190,7 +190,7 @@ namespace BookSale.Management.Application.Services
 
         public async Task<IEnumerable<BookCartDTO>> GetBookByListCodeAsync(string[] codes)
         {
-            var books = await _unitOfWork.BookRepository.GetBookByListCode(codes);
+            var books = await _unitOfWork.BookRepository.GetBookByListCodeAsync(codes);
 
             var result = _mapper.Map<IEnumerable<BookCartDTO>>(books);
 

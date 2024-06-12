@@ -29,7 +29,7 @@ namespace BookSale.Management.Application.Services
             _imageService = imageService;
         }
 
-        public async Task<ResponseDatatable<UserModel>> GetUserByPagination(RequestDatatable request)
+        public async Task<ResponseDatatable<UserModel>> GetUserByPaginationAsync(RequestDatatable request)
         {
             var users = await _userManager.Users.Where(x => x.IsActive && (String.IsNullOrEmpty(request.Keyword)
                                                    || (x.UserName.Contains(request.Keyword)
@@ -60,7 +60,7 @@ namespace BookSale.Management.Application.Services
             };
         }
 
-        public async Task<AccountDTO> GetUserById(string id)
+        public async Task<AccountDTO> GetUserByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -73,7 +73,7 @@ namespace BookSale.Management.Application.Services
             return userDto;
         }
 
-        public async Task<ResponseModel> Save(AccountDTO account)
+        public async Task<ResponseModel> SaveAsync(AccountDTO account)
         {
             string errors = string.Empty;
             IdentityResult identityResult;

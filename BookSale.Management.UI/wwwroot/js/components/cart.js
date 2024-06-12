@@ -91,7 +91,7 @@
             const code = seft.closest('tr').data('code');
 
             $.ajax({
-                url: `/cart/delete?code=${code}`,
+                url: `/cart/delete?code=${encodeURIComponent(code)}`,
                 method: 'POST',
                 success: function (response) {
                     if (response) {

@@ -8,10 +8,10 @@ namespace BookSale.Management.Application.Abtracts
     public interface IGenreService
     {
         Task<bool> DeleteAsync(int id);
-        Task<GenreViewModal> GetById(int id);
-        Task<ResponseDatatable<GenreDTO>> GetGenreByPagination(RequestDatatable request);
-        Task<IEnumerable<SelectListItem>> GetGenreForDropdownList();
-        IEnumerable<GenreSiteDTO> GetGenreListForSite();
-        Task<ResponseModel> Save(GenreViewModal genreDTO);
+        Task<GenreViewModal> GetByIdAsync(int id);
+        Task<ResponseDatatable<GenreDTO>> GetGenreByPaginationAsync(RequestDatatable request);
+        Task<IEnumerable<SelectListItem>> GetGenreForDropdownListAsync();
+        IEnumerable<GenreSiteDTO> GetGenreListForSiteAsync();
+        Task<ResponseModel> SaveAsync(GenreViewModal genreDTO);
     }
 }

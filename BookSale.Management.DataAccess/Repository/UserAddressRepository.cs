@@ -16,20 +16,20 @@ namespace BookSale.Management.DataAccess.Repository
         public UserAddressRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext) 
         {
         }
-        public async Task<IEnumerable<UserAddress>> GetUserAddress(string userId)
+        public async Task<IEnumerable<UserAddress>> GetAllAddressByUserAsync(string userId)
         {
             return await GetAllAsync(x => x.UserId == userId && x.IsActive);
         }
 
-        public async Task Save(UserAddress userAddress)
+        public async Task SaveAsync(UserAddress userAddress)
         {
             if (userAddress.Id == 0)
             {
-                await base.Create(userAddress);
+                await CreateAsync(userAddress);
             }
             else
             {
-                base.Update(userAddress);
+                Update(userAddress);
             }
         }
     }

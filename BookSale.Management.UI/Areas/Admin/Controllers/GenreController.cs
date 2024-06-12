@@ -25,14 +25,14 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
-            var data = await _genreService.GetById(id);
+            var data = await _genreService.GetByIdAsync(id);
             return Json(data);
         }
 
         [HttpPost]
         public async Task<IActionResult> GetGenrePagination(RequestDatatable request)
         {
-            var result = await _genreService.GetGenreByPagination(request);
+            var result = await _genreService.GetGenreByPaginationAsync(request);
 
             return Json(result);
         }
@@ -48,7 +48,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             };
             if (ModelState.IsValid)
             {
-                responseModel = await _genreService.Save(genreViewModal);
+                responseModel = await _genreService.SaveAsync(genreViewModal);
             }
 
             return Json(responseModel);

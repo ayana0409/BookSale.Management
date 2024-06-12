@@ -9,9 +9,9 @@ namespace BookSale.Management.Application.Abtracts
     public interface IOrderService
     {
         Task<IEnumerable<OrderChartByGenreDTO>> GetCharDataByGenreAsync(int genreId);
-        Task<ResponseDatatable<object>> GetOrderByPagination(RequestDatatable request);
+        Task<ResponseDatatable<object>> GetOrderByPaginationAsync(RequestDatatable request);
         Task<ReportDTO> GetReportByIdAsync(string id);
         Task<IEnumerable<ReportOrderResponseDTO>> GetReportOrderAsync(ReportRequestDTO request);
-        Task<bool> Save(OrderRequestDTO order);
+        Task<bool> SaveAsync(OrderRequestDTO order);
     }
 }

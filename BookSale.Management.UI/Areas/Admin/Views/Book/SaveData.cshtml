@@ -1,4 +1,6 @@
-﻿@model BookSale.Management.Application.DTOs.ViewModal.BookViewModal
+﻿@using BookSale.Management.Application.Abtracts
+@model BookSale.Management.Application.DTOs.ViewModal.BookViewModal
+@inject IGenreService _genreService
 
 @{
     ViewData["Title"] = "SaveData";
@@ -22,7 +24,7 @@
                                     <select class="form-select color-dropdown" asp-for="GenreId">
                                         <option value="">Please select</option>
                                         @{
-                                            var genres = ViewBag.Genres as IEnumerable<SelectListItem>;
+                                            var genres = await _genreService.GetGenreForDropdownListAsync();
                                             if (genres != null)
                                             {
                                                 foreach (var genre in genres)

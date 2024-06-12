@@ -26,7 +26,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         {
             IEnumerable<ReportOrderResponseDTO> responseDTOs = new List<ReportOrderResponseDTO>();
 
-            var genres = await _genreService.GetGenreForDropdownList();
+            var genres = await _genreService.GetGenreForDropdownListAsync();
             ViewBag.Genres = genres;
             
             if(!string.IsNullOrEmpty(reportRequest.From) || !string.IsNullOrEmpty(reportRequest.To))

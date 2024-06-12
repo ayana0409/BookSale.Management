@@ -9,12 +9,10 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
     public class BookController : BaseController
     {
         private readonly IBookService _bookService;
-        private readonly IGenreService _genreService;
 
         public BookController(IBookService bookService, IGenreService genreService)
         {
             _bookService = bookService;
-            _genreService = genreService;
         }
         [Breadscumb("Book List", "Application")]
         public IActionResult Index()
@@ -27,15 +25,10 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         public async Task<IActionResult> SaveData(int id)
         {
             var bookVM = new BookViewModal();
-            var genreList = await _genreService.GetGenreForDropdownList();
-            ViewBag.Genres = genreList;
-
-            string code = await _bookService.GenerateCodeAsync();
-            bookVM.Code = code;
 
             if (id != 0)
             {
-                bookVM = await _bookService.GetById(id);
+                bookVM = await _bookService.GetByIdAsync(id);
             }
 
             return View(bookVM);
@@ -43,10 +36,9 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
         [Breadscumb("Book Form", "System")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveData(BookViewModal bookViewModal)
         {
-            var genreList = await _genreService.GetGenreForDropdownList();
-            ViewBag.Genres = genreList;
             if (ModelState.IsValid)
             {
                 var result = await _bookService.SaveAsync(bookViewModal);
@@ -69,7 +61,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetBookPagination(RequestDatatable request)
         {
-            var result = await _bookService.GetBookByPagination(request);
+            var result = await _bookService.GetBookByPaginationAsync(request);
 
             return Json(result);
         }

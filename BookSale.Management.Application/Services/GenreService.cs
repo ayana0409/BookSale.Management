@@ -6,6 +6,7 @@ using BookSale.Management.Application.DTOs.Genre;
 using BookSale.Management.Application.DTOs.ViewModal;
 using BookSale.Management.DataAccess.Repository;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookSale.Management.Application.Services
 {
@@ -20,16 +21,16 @@ namespace BookSale.Management.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<GenreViewModal> GetById(int id)
+        public async Task<GenreViewModal> GetByIdAsync(int id)
         {
-            var genre = await _unitOfWork.GenreRepository.GetById(id);
+            var genre = await _unitOfWork.GenreRepository.GetByIdAsync(id);
 
             return _mapper.Map<GenreViewModal>(genre);
         }
 
-        public async Task<ResponseDatatable<GenreDTO>> GetGenreByPagination(RequestDatatable request)
+        public async Task<ResponseDatatable<GenreDTO>> GetGenreByPaginationAsync(RequestDatatable request)
         {
-            var genres = await _unitOfWork.GenreRepository.GetAllActiveGenre();
+            var genres = await _unitOfWork.GenreRepository.GetAllActiveAsync();
 
             var genresDTO = _mapper.Map<IEnumerable<GenreDTO>>(genres);
 
@@ -46,9 +47,9 @@ namespace BookSale.Management.Application.Services
             };
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetGenreForDropdownList()
+        public async Task<IEnumerable<SelectListItem>> GetGenreForDropdownListAsync()
         {
-            var genre = await _unitOfWork.GenreRepository.GetAllActiveGenre();
+            var genre = await _unitOfWork.GenreRepository.GetAllActiveAsync();
 
             return genre.Select(x => new SelectListItem
             {
@@ -57,7 +58,7 @@ namespace BookSale.Management.Application.Services
             });
         }
 
-        public async Task<ResponseModel> Save(GenreViewModal genreDTO)
+        public async Task<ResponseModel> SaveAsync(GenreViewModal genreDTO)
         {
             Genre genre = _mapper.Map<Genre>(genreDTO);
             var result = false;
@@ -102,7 +103,7 @@ namespace BookSale.Management.Application.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var genre = await _unitOfWork.GenreRepository.FindById(id);
+            var genre = await _unitOfWork.GenreRepository.FindByIdAsync(id);
             if (genre is not null)
             {
                 genre.IsActive = false;
@@ -113,14 +114,14 @@ namespace BookSale.Management.Application.Services
             return false;
         }
 
-        public IEnumerable<GenreSiteDTO> GetGenreListForSite()
+        public IEnumerable<GenreSiteDTO> GetGenreListForSiteAsync()
         {
             var result = _unitOfWork.Table<Genre>().Select(x => new GenreSiteDTO
             {
                 Id = x.Id,
                 Name = x.Name,
                 TotalBooks = x.Books.Where(x => x.IsActive).Count()
-            });
+            }).AsNoTracking();
 
             return result;
         }

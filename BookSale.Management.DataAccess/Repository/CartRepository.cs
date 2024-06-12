@@ -9,15 +9,15 @@ namespace BookSale.Management.DataAccess.Repository
         public CartRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
-        public async Task Save(Cart cart)
+        public async Task SaveAsync(Cart cart)
         {
             if (cart.Id == 0)
             {
-                await base.Create(cart);
+                await CreateAsync(cart);
             }
             else
             {
-                base.Update(cart);
+                Update(cart);
             }
         }
     }

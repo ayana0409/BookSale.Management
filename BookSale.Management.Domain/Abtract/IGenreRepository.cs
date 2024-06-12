@@ -5,10 +5,10 @@ namespace BookSale.Managament.Domain.Abtract
     public interface IGenreRepository
     {
         Task<bool> AddAsync(Genre genre);
-        Task<Genre> FindById(int id);
-        Task<IEnumerable<Genre>> GetAllActiveGenre();
-        Task<IEnumerable<Genre>> GetAllGenre();
-        Task<Genre> GetById(int id);
+        Task<Genre> FindByIdAsync(int id);
+        Task<IEnumerable<Genre>> GetAllActiveAsync();
+        Task<IEnumerable<Genre>> GetAllAsync();
+        Task<Genre> GetByIdAsync(int id);
         Task<bool> UpdateAsync(Genre genre);
     }
 }

@@ -15,17 +15,17 @@ namespace BookSale.Management.DataAccess.Repository
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<IEnumerable<Genre>> GetAllGenre()
+        public async Task<IEnumerable<Genre>> GetAllAsync()
         {
-            return await GetAllAsync();
+            return await base.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Genre>> GetAllActiveGenre()
+        public async Task<IEnumerable<Genre>> GetAllActiveAsync()
         {
             return await _applicationDbContext.Genre.Where(x => x.IsActive == true).ToListAsync();
         }
 
-        public async Task<Genre> GetById(int id)
+        public async Task<Genre> GetByIdAsync(int id)
         {
             return await GetSigleAsync(x => x.Id == id);
         }
@@ -67,7 +67,7 @@ namespace BookSale.Management.DataAccess.Repository
             return false;
         }
 
-        public async Task<Genre> FindById(int id)
+        public async Task<Genre> FindByIdAsync(int id)
         {
             return await _applicationDbContext.Genre.FirstAsync(x => x.Id == id);
         }

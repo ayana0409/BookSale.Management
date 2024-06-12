@@ -17,7 +17,7 @@ namespace BookSale.Management.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Save(CartRequestDTO bookCartDTOs)
+        public async Task<bool> SaveAsync(CartRequestDTO bookCartDTOs)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace BookSale.Management.Application.Services
 
                 await _unitOfWork.BeginTransaction();
 
-                await _unitOfWork.CartRepository.Save(cart);
+                await _unitOfWork.CartRepository.SaveAsync(cart);
 
                 await _unitOfWork.SaveChangeAsync();
 

@@ -1,0 +1,78 @@
+[
+  {
+    "outputFileName": "wwwroot/clientBundle/layout.site.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/css/site.css",
+      "wwwroot/admin/assets/vendor/fonts/materialdesignicons.css",
+      "wwwroot/admin/assets/vendor/libs/node-waves/node-waves.css",
+      "wwwroot/admin/assets/css/demo.css",
+      "wwwroot/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css",
+      "wwwroot/admin/assets/vendor/css/core.css",
+      "wwwroot/admin/assets/vendor/css/theme-default.css",
+      "wwwroot/js/toaster/jquery.toast.min.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "all"
+    }
+  },
+  {
+    "outputFileName": "wwwroot/clientBundle/layout.site.js",
+    "inputFiles": [
+      "wwwroot/admin/assets/vendor/libs/popper/popper.js",
+      "wwwroot/admin/assets/vendor/js/bootstrap.js",
+      "wwwroot/js/toaster/jquery.toast.min.js",
+      "wwwroot/js/site.js",
+      "wwwroot/js/jquery.blockui.js",
+      "wwwroot/admin/assets/vendor/libs/node-waves/node-waves.js",
+      "wwwroot/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js",
+      "wwwroot/admin/assets/vendor/js/menu.js",
+      "wwwroot/admin/assets/js/main.js",
+      "wwwroot/js/common.js",
+      "wwwroot/lib/moment.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "all"
+    }
+  },
+  {
+    "outputFileName": "wwwroot/clientBundle/layout.admin.css",
+    "inputFiles": [
+      "wwwroot/css/site.css",
+      "wwwroot/admin/assets/vendor/fonts/materialdesignicons.css",
+      "wwwroot/admin/assets/vendor/libs/node-waves/node-waves.css",
+      "wwwroot/admin/assets/css/demo.css",
+      "wwwroot/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css",
+      "wwwroot/admin/assets/vendor/css/core.css",
+      "wwwroot/admin/assets/vendor/css/theme-default.css",
+      "wwwroot/js/toaster/jquery.toast.min.css",
+      "wwwroot/admin/assets/vendor/fonts/remixicon.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "all"
+    }
+  },
+  {
+    "outputFileName": "wwwroot/clientBundle/layout.admin.js",
+    "inputFiles": [
+      "wwwroot/admin/assets/vendor/libs/popper/popper.js",
+      "wwwroot/admin/assets/vendor/js/bootstrap.js",
+      "wwwroot/js/toaster/jquery.toast.min.js",
+      "wwwroot/js/site.js",
+      "wwwroot/js/jquery.blockui.js",
+      "wwwroot/admin/assets/vendor/libs/node-waves/node-waves.js",
+      "wwwroot/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js",
+      "wwwroot/admin/assets/vendor/js/menu.js",
+      "wwwroot/admin/assets/js/main.js",
+      "wwwroot/js/common.js",
+      "wwwroot/lib/moment.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "all"
+    }
+  }
+]

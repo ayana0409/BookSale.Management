@@ -15,11 +15,9 @@ namespace BookSale.Management.UI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(bool isActive)
         {
-            var genres = _genreService.GetGenreListForSite();
+            var genres = _genreService.GetGenreListForSiteAsync();
 
             return View(genres);
         }
-
-
     }
 }

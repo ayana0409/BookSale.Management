@@ -24,7 +24,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> GetAccountPagination(RequestDatatable requestDatatable)
         {
-            var data = await _userService.GetUserByPagination(requestDatatable);
+            var data = await _userService.GetUserByPaginationAsync(requestDatatable);
 
             return Json(data);
         }
@@ -33,9 +33,9 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> SaveData(string? id)
         {
-            AccountDTO accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserById(id) : new();
+            AccountDTO accountDto = !string.IsNullOrEmpty(id) ? await _userService.GetUserByIdAsync(id) : new();
 
-            ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+            ViewBag.Roles = await _roleService.GetRoleForDropdownListAsync();
 
             return View(accountDto);
         }
@@ -51,7 +51,7 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+                ViewBag.Roles = await _roleService.GetRoleForDropdownListAsync();
                 ModelState.AddModelError("errorsModel", "Invalid model");
 
                 var errors = ModelState.Values.SelectMany(x => x.Errors)
@@ -63,14 +63,14 @@ namespace BookSale.Management.UI.Areas.Admin.Controllers
             }
 
 
-            var result = await _userService.Save(accountDTO);
+            var result = await _userService.SaveAsync(accountDTO);
 
             if (result.Status)
             {
                 return RedirectToAction("", "Account");
             }
 
-            ViewBag.Roles = await _roleService.GetRoleForDropdownList();
+            ViewBag.Roles = await _roleService.GetRoleForDropdownListAsync();
             ModelState.AddModelError("errorsModel", result.Message);
 
             return View(accountDTO);

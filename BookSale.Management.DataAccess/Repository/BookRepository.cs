@@ -17,7 +17,7 @@ namespace BookSale.Management.DataAccess.Repository
             _sQLQueryHandler = sQLQueryHandler;
         }
 
-        public async Task<(IEnumerable<BookDTO>, int)> GetBookByPanigation<BookDTO>(int pageIndex, int pageSize, string? keyword)
+        public async Task<(IEnumerable<BookDTO>, int)> GetBookByPanigationAsync<BookDTO>(int pageIndex, int pageSize, string? keyword)
         {
             DynamicParameters parameters = new();
 
@@ -33,21 +33,21 @@ namespace BookSale.Management.DataAccess.Repository
             return (result, totalRecord);
         }
 
-        public async Task<Book?> GetById(int id)
+        public async Task<Book?> GetByIdAsync(int id)
         {
             return await base.GetSigleAsync(x => x.Id == id);
         }
 
-        public async Task<Book?> GetByCode(string code) => await base.GetSigleAsync(x => x.Code == code);
-        public async Task<IEnumerable<Book?>> GetBookByListCode(string[] codes) => await base.GetAllAsync(x => codes.Contains(x.Code));
+        public async Task<Book?> GetByCodeAsync(string code) => await base.GetSigleAsync(x => x.Code == code);
+        public async Task<IEnumerable<Book?>> GetBookByListCodeAsync(string[] codes) => await base.GetAllAsync(x => codes.Contains(x.Code));
 
-        public async Task<bool> Save(Book book)
+        public async Task<bool> SaveAsync(Book book)
         {
             try
             {
                 if (book.Id == 0)
                 {
-                    await base.Create(book);
+                    await base.CreateAsync(book);
                 }
                 else
                 {
@@ -58,7 +58,7 @@ namespace BookSale.Management.DataAccess.Repository
             catch (Exception) { return false; }
         }
 
-        public async Task<(IEnumerable<Book>, int)> GetBookForSite(int genreId, int pageIndex, int pageSize = 10)
+        public async Task<(IEnumerable<Book>, int)> GetBookForSiteAsync(int genreId, int pageIndex, int pageSize = 10)
         {
             IEnumerable<Book> books;
 

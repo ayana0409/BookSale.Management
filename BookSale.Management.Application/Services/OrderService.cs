@@ -22,9 +22,9 @@ namespace BookSale.Management.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ResponseDatatable<object>> GetOrderByPagination(RequestDatatable request)
+        public async Task<ResponseDatatable<object>> GetOrderByPaginationAsync(RequestDatatable request)
         {
-            var (orders, totalRecords) = await _unitOfWork.OrderRepository.GetByPagination<OrderResponseDTO>(request.SkipItems, request.PageSize, request.Keyword is null ? "" : request.Keyword);
+            var (orders, totalRecords) = await _unitOfWork.OrderRepository.GetByPaginationAsync<OrderResponseDTO>(request.SkipItems, request.PageSize, request.Keyword is null ? "" : request.Keyword);
 
             return new ResponseDatatable<object>
             {
@@ -44,7 +44,7 @@ namespace BookSale.Management.Application.Services
             };
         }
 
-        public async Task<bool> Save(OrderRequestDTO orderDTO)
+        public async Task<bool> SaveAsync(OrderRequestDTO orderDTO)
         {
             try
             {
@@ -93,6 +93,7 @@ namespace BookSale.Management.Application.Services
                 .Where(x => x.Id == id)
                 .Include(x => x.Address)
                 .Include(x => x.Details)
+                .AsNoTracking()
                 .SingleAsync();
 
             var address = _mapper.Map<OrderAddressDTO>(order.Address);
@@ -118,7 +119,7 @@ namespace BookSale.Management.Application.Services
 
         public async Task<IEnumerable<ReportOrderResponseDTO>> GetReportOrderAsync(ReportRequestDTO request)
         {
-            var result = await _unitOfWork.OrderRepository.GetReportByExcel<ReportOrderResponseDTO>(request.From,
+            var result = await _unitOfWork.OrderRepository.GetReportByExcelAsync<ReportOrderResponseDTO>(request.From,
                                                                                                     request.To, 
                                                                                                     request.GenreId, 
                                                                                                     (int)request.Status);
@@ -128,7 +129,7 @@ namespace BookSale.Management.Application.Services
 
         public async Task<IEnumerable<OrderChartByGenreDTO>> GetCharDataByGenreAsync(int genreId)
         {
-            var result = await _unitOfWork.OrderRepository.GetChartDataByGenre<OrderChartByGenreDTO>(genreId);
+            var result = await _unitOfWork.OrderRepository.GetChartDataByGenreAsync<OrderChartByGenreDTO>(genreId);
 
             return result;
         }

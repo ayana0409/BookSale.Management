@@ -6,14 +6,8 @@
             render: function (key) {
                 return `
                     <span data-key=${key}>
-                        <a href="/admin/order/savedata?id=${key}" class="btn-edit">
-                            <span class="mdi mdi-pen ri-24px"></span>
-                        </a> &nbsp
                         <a href="/admin/report/exportpdforder?id=${key}" class="btn-export">
                             <span class="mdi mdi-file-export-outline ri-24px"></span>
-                        </a>
-                        <a href="#" class="btn-delete">
-                            <span class="mdi mdi-close-thick ri-24px"></span>
                         </a>
                     </span>
                 `;

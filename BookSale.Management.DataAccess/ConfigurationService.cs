@@ -17,9 +17,14 @@ namespace BookSale.Management.DataAccess
             {
                 var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                // Kiểm tra database đã tồn tại?
-                //appContext.Database.EnsureCreated();
-                appContext.Database.MigrateAsync().Wait();
+                try
+                {
+                    appContext.Database.MigrateAsync().Wait();
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
 

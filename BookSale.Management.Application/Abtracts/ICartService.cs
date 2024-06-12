@@ -5,6 +5,6 @@ namespace BookSale.Management.Application.Abtracts
 {
     public interface ICartService
     {
-        Task<bool> Save(CartRequestDTO bookCartDTOs);
+        Task<bool> SaveAsync(CartRequestDTO bookCartDTOs);
     }
 }
